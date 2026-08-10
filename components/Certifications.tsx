@@ -8,7 +8,7 @@ export default function Certifications() {
     <section id="certifications" className="scroll-mt-20 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="Continuous learning" title="Certifications" />
+          <SectionHeading eyebrow="Continuous learning" title="Certifications" index="06." />
         </Reveal>
         <ol className="grid gap-3 md:grid-cols-2">
           {certifications.map((cert, i) => {
@@ -17,7 +17,7 @@ export default function Certifications() {
               <div
                 className={`flex items-start gap-3 rounded-xl border px-4 py-3 transition-all ${
                   href
-                    ? "border-border bg-surface shadow-sm hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+                    ? "border-border bg-surface shadow-sm hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/[0.03] hover:shadow-md"
                     : "border-border/60 bg-surface-2/60"
                 }`}
               >

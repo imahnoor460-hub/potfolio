@@ -7,7 +7,7 @@ export default function Experience() {
     <section id="experience" className="scroll-mt-20 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="Where I've worked" title="Experience" />
+          <SectionHeading eyebrow="Where I've worked" title="Experience" index="02." />
         </Reveal>
 
         <Reveal delay={80}>

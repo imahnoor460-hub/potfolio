@@ -40,11 +40,122 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   transition: background-color 0.2s ease, color 0.2s ease;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px);
+  background-size: 42px 42px;
 }
 
 ::selection {
   background: var(--accent);
   color: var(--background);
+}
+
+.cursor-spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    550px circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 70%
+  );
+}
+
+.parallax-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  will-change: transform;
+}
+
+.parallax-glow {
+  position: absolute;
+  width: 34vw;
+  height: 34vw;
+  max-width: 520px;
+  max-height: 520px;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.parallax-glow-a {
+  top: 6vh;
+  left: -6vw;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.parallax-glow-b {
+  top: 70vh;
+  right: -8vw;
+  background: color-mix(in srgb, var(--accent-2) 16%, transparent);
+}
+
+.parallax-glow-c {
+  top: 150vh;
+  left: 22vw;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.parallax-glow-d {
+  top: 240vh;
+  right: 8vw;
+  background: color-mix(in srgb, var(--accent-2) 14%, transparent);
+}
+
+.parallax-glyph {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: color-mix(in srgb, var(--foreground) 7%, transparent);
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.cursor-point-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+.cursor-point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+  transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cursor-point.cursor-point-active {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-2);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-2) 18%, transparent);
+}
+
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-point-wrap {
+    display: none;
+  }
 }
 
 @keyframes pulse-dot {
@@ -61,4 +172,47 @@ body {
 
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes blink-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret {
+  animation: blink-caret 1s step-end infinite;
+}
+
+.bracket-hover {
+  position: relative;
+}
+
+.bracket-hover::before,
+.bracket-hover::after {
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.bracket-hover::before {
+  content: "<";
+  margin-right: 2px;
+  transform: translateX(4px);
+}
+
+.bracket-hover::after {
+  content: "/>";
+  margin-left: 2px;
+  transform: translateX(-4px);
+}
+
+.bracket-hover:hover::before,
+.bracket-hover:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }

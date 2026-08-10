@@ -1,19 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Mail, Menu, Phone, X } from "lucide-react";
-import GithubIcon from "@/components/GithubIcon";
+import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
-import { profile } from "@/data/cv";
 
 const links = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#education", label: "Education" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#certifications", label: "Certifications" },
-  { href: "#contact", label: "Contact" },
+  { href: "#about", label: "about" },
+  { href: "#experience", label: "experience" },
+  { href: "#education", label: "education" },
+  { href: "#projects", label: "projects" },
+  { href: "#skills", label: "skills" },
+  { href: "#certifications", label: "certifications" },
+  { href: "#contact", label: "contact" },
 ];
 
 export default function Nav() {
@@ -43,8 +41,11 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="font-semibold text-foreground">
-          Mahnoor Iftikhar
+        <a
+          href="#top"
+          className="font-mono text-xl font-bold text-foreground md:text-2xl"
+        >
+          Mahnoor
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -52,10 +53,10 @@ export default function Nav() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-md px-3 py-1.5 font-mono text-sm font-medium transition-colors ${
                   active === link.href
                     ? "bg-accent/10 text-accent"
-                    : "text-muted hover:text-foreground"
+                    : "text-muted hover:bg-surface-2 hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -65,32 +66,6 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-1">
-          <div className="hidden items-center gap-1 border-r border-border pr-2 sm:flex">
-            <a
-              href={`mailto:${profile.email}`}
-              aria-label="Email"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <Mail size={17} />
-            </a>
-            <a
-              href={`tel:${profile.phone.replace(/\s+/g, "")}`}
-              aria-label="Phone"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <Phone size={17} />
-            </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <GithubIcon size={17} />
-            </a>
-          </div>
-
           <ThemeToggle />
 
           <button
@@ -112,10 +87,10 @@ export default function Nav() {
                 <a
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`block rounded-md px-3 py-2 font-mono text-sm font-medium transition-colors ${
                     active === link.href
                       ? "bg-accent/10 text-accent"
-                      : "text-muted hover:text-foreground"
+                      : "text-muted hover:bg-surface-2 hover:text-foreground"
                   }`}
                 >
                   {link.label}
@@ -123,32 +98,6 @@ export default function Nav() {
               </li>
             ))}
           </ul>
-
-          <div className="mt-3 flex items-center gap-1 border-t border-border pt-3">
-            <a
-              href={`mailto:${profile.email}`}
-              aria-label="Email"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <Mail size={17} />
-            </a>
-            <a
-              href={`tel:${profile.phone.replace(/\s+/g, "")}`}
-              aria-label="Phone"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <Phone size={17} />
-            </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-            >
-              <GithubIcon size={17} />
-            </a>
-          </div>
         </div>
       )}
     </header>

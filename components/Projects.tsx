@@ -12,7 +12,7 @@ export default function Projects() {
     <section id="projects" className="scroll-mt-20 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="What I've built" title="Projects" />
+          <SectionHeading eyebrow="What I've built" title="Projects" index="04." />
         </Reveal>
 
         {featured && (

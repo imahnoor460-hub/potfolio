@@ -5,8 +5,9 @@ export const profile = {
   phone: "+92 302-4717221",
   email: "imahnoor460@gmail.com",
   github: "https://github.com/imahnoor460-hub",
+  linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-649366381/",
   summary:
-    "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design. Proficient in multiple programming languages including Python, C++, C#, Java, and SQL, and currently expanding into mobile development and cloud computing.",
+    "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
 
 export const experience = {
@@ -116,7 +117,6 @@ export const skillGroups: SkillGroup[] = [
   { category: "3D Design & Tools", skills: ["Blender", "3D Modeling", "Environment Creation"] },
   { category: "Full-Stack Web", skills: ["Django", "React", "FastAPI", "Next.js"] },
   { category: "AI & LLMs", skills: ["LLM Integration", "Embeddings", "MCP", "Agentic Workflows"] },
-  { category: "Mobile Development", skills: ["Flutter", "XML (Learning Phase)"] },
   {
     category: "Cloud (AWS)",
     skills: ["EC2", "EKS", "CloudFront", "DynamoDB", "API Gateway", "S3", "CloudWatch"],
@@ -146,5 +146,10 @@ export const certifications: Certification[] = [
     issuer: "DeepLearning.AI",
     verifyUrl:
       "https://learn.deeplearning.ai/courses/agent-skills-with-anthropic/lesson/ldn5c3/introduction",
+  },
+  {
+    name: "Google Cloud Skills Boost — Public Profile",
+    issuer: "Google",
+    verifyUrl: "https://www.skills.google/public_profiles/0f1026d4-856c-4b37-949f-b7deea965478",
   },
 ];

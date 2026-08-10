@@ -1,23 +1,39 @@
 "use client";
 
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
-import { profile } from "@/data/cv";
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xoeaeovo";
+
+type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const message = formData.get("message");
 
-    const subject = encodeURIComponent(`Portfolio contact from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+    setStatus("submitting");
 
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   }
 
   const fieldClass =
@@ -72,12 +88,18 @@ export default function ContactForm() {
       <div className="mt-5 flex flex-wrap items-center gap-4">
         <button
           type="submit"
-          className="flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:opacity-90"
+          disabled={status === "submitting"}
+          className="flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
         >
           <Send size={16} />
-          Send Message
+          {status === "submitting" ? "Sending…" : "Send Message"}
         </button>
-        <p className="text-xs text-muted">Opens your email client with this message pre-filled.</p>
+        {status === "success" && (
+          <p className="text-xs font-medium text-green-600">Thanks! Your message has been sent.</p>
+        )}
+        {status === "error" && (
+          <p className="text-xs font-medium text-red-500">Something went wrong. Please try again.</p>
+        )}
       </div>
     </form>
   );

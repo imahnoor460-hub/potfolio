@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import CustomCursor from "@/components/CustomCursor";
+import ParallaxBackground from "@/components/ParallaxBackground";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,6 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
           }}
         />
+        <ParallaxBackground />
+        <div className="cursor-spotlight" aria-hidden />
+        <CustomCursor />
         {children}
       </body>
     </html>
