@@ -96,6 +96,7 @@ export const projects: Project[] = [
     slug: "savora",
     name: "Savora",
     status: "Completed",
+    featured: true,
     image: "/projects/savora.png",
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",

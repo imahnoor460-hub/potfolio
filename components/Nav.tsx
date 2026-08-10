@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Mail, Menu, Phone, X } from "lucide-react";
+import GithubIcon from "@/components/GithubIcon";
 import ThemeToggle from "@/components/ThemeToggle";
 import { profile } from "@/data/cv";
 
@@ -79,6 +80,15 @@ export default function Nav() {
             >
               <Phone size={17} />
             </a>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+            >
+              <GithubIcon size={17} />
+            </a>
           </div>
 
           <ThemeToggle />
@@ -128,6 +138,15 @@ export default function Nav() {
               className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
             >
               <Phone size={17} />
+            </a>
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+            >
+              <GithubIcon size={17} />
             </a>
           </div>
         </div>
