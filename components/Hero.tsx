@@ -64,10 +64,10 @@ export default function Hero() {
           </div>
 
           <p className="font-mono text-sm text-accent">Hi, my name is</p>
-          <h1 className="mt-1 flex items-center text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-            {typed}
-            <span className="ml-1 inline-block h-8 w-[4px] bg-accent animate-caret md:h-10" />
-          </h1>
+         <h1 className="mt-1 flex items-center text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+  <span aria-hidden={typed.length > 0}>{typed || profile.name}</span>
+  <span className="ml-1 inline-block h-8 w-[4px] bg-accent animate-caret md:h-10" />
+</h1>
           <p className="mt-2 text-lg font-medium text-muted md:text-xl">
             {profile.title}
           </p>
