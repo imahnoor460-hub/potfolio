@@ -15,11 +15,51 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mahnoor Iftikhar — Full-Stack Developer & AI Engineer",
-  description:
-    "Portfolio of Mahnoor Iftikhar — Computer Science student specializing in full-stack web development, AI/LLM integration, game development, and 3D design.",
-};
+  metadataBase: new URL("https://www.mahnooriftikhar.online"),
 
+  title: {
+    default: "Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
+    template: "%s | Mahnoor Iftikhar",
+  },
+
+  description:
+    "Mahnoor Iftikhar is a Computer Science student and Full-Stack Developer specializing in React, Next.js, Python, AI, LLMs, and modern web applications.",
+
+  keywords: [
+    "Mahnoor Iftikhar",
+    "Mahnoor Iftikhar portfolio",
+    "Full-Stack Developer",
+    "AI Engineer",
+    "AI Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Python Developer",
+    "Computer Science Student",
+    "Pakistan Developer",
+  ],
+
+  authors: [{ name: "Mahnoor Iftikhar" }],
+  creator: "Mahnoor Iftikhar",
+
+  alternates: {
+    canonical: "https://www.mahnooriftikhar.online",
+  },
+
+  openGraph: {
+    type: "website",
+    url: "https://www.mahnooriftikhar.online",
+    title: "Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
+    description:
+      "Portfolio of Mahnoor Iftikhar — Full-Stack Developer and AI Engineer building modern web applications and AI-powered solutions.",
+    siteName: "Mahnoor Iftikhar",
+    locale: "en_US",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
