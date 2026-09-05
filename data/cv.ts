@@ -5,7 +5,7 @@ export const profile = {
   phone: "+92 302-4717221",
   email: "imahnoor460@gmail.com",
   github: "https://github.com/imahnoor460-hub",
-  linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-649366381/",
+  linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-8672a6362/",
   summary:
     "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
@@ -98,7 +98,9 @@ export const projects: Project[] = [
   {
     slug: "olx-clone",
     name: "OLX Clone",
-    status: "Completed",
+    status: "Completed · Deployed",
+    liveUrl: "https://olx-backend-h6yd.onrender.com/api",
+    image: "/projects/olx-clone.png",
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
