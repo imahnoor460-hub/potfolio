@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight, Braces, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/cv";
 
@@ -6,6 +7,33 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <div className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/[0.03] hover:shadow-md">
+      {project.image &&
+        (project.liveUrl ? (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative mb-4 -mx-6 -mt-6 aspect-video overflow-hidden rounded-t-xl border-b border-border bg-surface-2"
+            aria-label={`Visit ${project.name} live site`}
+          >
+            <Image
+              src={project.image}
+              alt={`${project.name} screenshot`}
+              fill
+              className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+            />
+          </a>
+        ) : (
+          <div className="relative mb-4 -mx-6 -mt-6 aspect-video overflow-hidden rounded-t-xl border-b border-border bg-surface-2">
+            <Image
+              src={project.image}
+              alt={`${project.name} screenshot`}
+              fill
+              className="object-cover"
+            />
+          </div>
+        ))}
+
       <div className="mb-3 flex items-center justify-between gap-3">
         <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
           <Braces size={16} className="text-accent" />
