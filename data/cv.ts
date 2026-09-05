@@ -69,6 +69,17 @@ export const projects: Project[] = [
     links: [],
   },
   {
+    slug: "olx-clone",
+    name: "OLX Clone",
+    status: "Completed · Deployed",
+    liveUrl: "https://olx-backend-h6yd.onrender.com/api",
+    image: "/projects/olx-clone.png",
+    description:
+      "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
+    tags: ["Django", "React", "Full Stack", "REST APIs"],
+    links: [],
+  },
+  {
     slug: "unity-game-development",
     name: "Unity Game Development",
     status: "Completed",
@@ -93,17 +104,6 @@ export const projects: Project[] = [
     description:
       "Built a system for managing book inventory, issuing, and returns, with an optimized database schema designed in MySQL. Implemented features for tracking availability and user records to ensure efficient data retrieval and management.",
     tags: ["MySQL", "Database Design", "SQL"],
-    links: [],
-  },
-  {
-    slug: "olx-clone",
-    name: "OLX Clone",
-    status: "Completed · Deployed",
-    liveUrl: "https://olx-backend-h6yd.onrender.com/api",
-    image: "/projects/olx-clone.png",
-    description:
-      "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
-    tags: ["Django", "React", "Full Stack", "REST APIs"],
     links: [],
   },
   {
