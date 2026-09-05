@@ -62,7 +62,7 @@ export default function Footer() {
         </Reveal>
 
         <p className="mt-8 text-center font-mono text-xs text-muted">
-          <span className="text-accent">{"//"}</span> {profile.name} · built with Next.js &amp; Tailwind
+          <span className="text-accent">{"//"}</span> {profile.name}
         </p>
       </div>
     </footer>
