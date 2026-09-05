@@ -58,6 +58,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "savora",
+    name: "Savora",
+    status: "Completed",
+    image: "/projects/savora.png",
+    description:
+      "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
+    tags: ["Django", "React", "Full Stack", "REST APIs"],
+    links: [],
+  },
+  {
     slug: "unity-game-development",
     name: "Unity Game Development",
     status: "Completed",
@@ -90,16 +100,6 @@ export const projects: Project[] = [
     status: "Completed",
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
-    tags: ["Django", "React", "Full Stack", "REST APIs"],
-    links: [],
-  },
-  {
-    slug: "savora",
-    name: "Savora",
-    status: "Completed",
-    image: "/projects/savora.png",
-    description:
-      "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
     links: [],
   },
