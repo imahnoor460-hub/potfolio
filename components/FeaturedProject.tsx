@@ -61,14 +61,31 @@ export default function FeaturedProject({ project }: { project: Project }) {
 
         {project.image ? (
           <div className="relative aspect-video w-full border-t border-border bg-surface-2 md:aspect-auto md:h-full md:border-l md:border-t-0">
-            <div className="absolute inset-6 md:inset-10">
-              <Image
-                src={project.image}
-                alt={`${project.name} screenshot`}
-                fill
-                className="object-contain"
-              />
-            </div>
+            {project.liveUrl ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-6 md:inset-10"
+                aria-label={`Visit ${project.name} live site`}
+              >
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  fill
+                  className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                />
+              </a>
+            ) : (
+              <div className="absolute inset-6 md:inset-10">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            )}
           </div>
         ) : (
           <div className="relative flex items-center justify-center border-t border-border bg-surface-2 p-6 md:border-l md:border-t-0 md:p-10">
