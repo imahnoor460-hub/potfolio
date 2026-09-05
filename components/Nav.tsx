@@ -45,7 +45,7 @@ export default function Nav() {
           href="#top"
           className="font-mono text-xl font-bold text-foreground md:text-2xl"
         >
-          Mahnoor
+          Mahnoor Iftikhar
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
