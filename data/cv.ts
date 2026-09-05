@@ -62,7 +62,7 @@ export const projects: Project[] = [
     name: "Savora",
     status: "Completed · Deployed",
     liveUrl: "https://mahnoor-savora.vercel.app/",
-    image: "/projects/savora.png",
+    image: "/projects/savora.jpg",
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
