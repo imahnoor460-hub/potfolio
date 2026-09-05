@@ -97,11 +97,22 @@ export const projects: Project[] = [
     slug: "savora",
     name: "Savora",
     status: "Completed",
-    featured: true,
     image: "/projects/savora.png",
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
+    links: [],
+  },
+  {
+    slug: "competitive-intelligence-monitor",
+    name: "Competitive Intelligence Monitor",
+    status: "Completed · Deployed",
+    featured: true,
+    liveUrl: "https://competitive-intelligence-monitor.vercel.app/",
+    image: "/projects/dashboard.png",
+    description:
+      "A dashboard that tracks competitors' websites, pricing, and updates, surfacing the findings in a live, easy-to-read view.",
+    tags: ["Next.js", "Dashboard", "Data Visualization", "Web Scraping"],
     links: [],
   },
 ];
