@@ -72,7 +72,7 @@ export const projects: Project[] = [
     slug: "olx-clone",
     name: "OLX Clone",
     status: "Completed · Deployed",
-    liveUrl: "https://olx-backend-h6yd.onrender.com/api",
+    liveUrl: "https://olx-frontend-eight.vercel.app/",
     image: "/projects/olx-clone.png",
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
