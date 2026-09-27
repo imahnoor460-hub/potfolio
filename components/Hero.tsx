@@ -1,14 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Download, Mail, Phone } from "lucide-react";
+import { Download, Mail, Phone, X } from "lucide-react";
 import GithubIcon from "@/components/GithubIcon";
 import LinkedinIcon from "@/components/LinkedinIcon";
 import { profile } from "@/data/cv";
 
 export default function Hero() {
   const [typed, setTyped] = useState("");
+  const [showResumePreview, setShowResumePreview] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!showResumePreview) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setShowResumePreview(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showResumePreview]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -119,14 +129,14 @@ export default function Hero() {
             >
               View Projects
             </a>
-            <a
-              href="/resume.pdf"
-              download
+            <button
+              type="button"
+              onClick={() => setShowResumePreview(true)}
               className="flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 font-mono text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent/5 hover:text-accent"
             >
               <Download size={16} />
               Download CV
-            </a>
+            </button>
             <a
               href="#contact"
               className="flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 font-mono text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent/5 hover:text-accent"
@@ -200,6 +210,47 @@ export default function Hero() {
           <div className="mx-auto mt-3 h-3 w-4/5 max-w-sm rounded-full bg-black/25 blur-md" />
         </div>
       </div>
+
+      {showResumePreview && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+          onClick={() => setShowResumePreview(false)}
+        >
+          <div
+            className="flex h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <span className="font-mono text-sm font-semibold text-foreground">
+                Resume Preview
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="flex items-center gap-2 rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <Download size={14} />
+                  Download
+                </a>
+                <button
+                  type="button"
+                  aria-label="Close preview"
+                  onClick={() => setShowResumePreview(false)}
+                  className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-accent"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src="/resume.pdf"
+              title="Resume Preview"
+              className="h-full w-full flex-1 bg-white"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
