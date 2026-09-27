@@ -7,7 +7,7 @@ export default function Education() {
     <section id="education" className="scroll-mt-20 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="Where I've studied" title="Education" index="03." />
+          <SectionHeading title="Education" index="03." />
         </Reveal>
 
         <div className="grid gap-4 md:grid-cols-2">

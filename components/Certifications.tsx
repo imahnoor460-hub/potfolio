@@ -8,7 +8,7 @@ export default function Certifications() {
     <section id="certifications" className="scroll-mt-20 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="Continuous learning" title="Certifications" index="06." />
+          <SectionHeading title="Certifications" index="06." />
         </Reveal>
         <ol className="grid gap-3 md:grid-cols-2">
           {certifications.map((cert, i) => {

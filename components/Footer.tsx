@@ -6,12 +6,12 @@ import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { profile } from "@/data/cv";
 
-export default function Footer() {
+export default function Footer({ showIndex = true }: { showIndex?: boolean }) {
   return (
     <footer id="contact" className="scroll-mt-20 bg-surface-2/50">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="Let's work together" title="Contact" index="07." />
+          <SectionHeading title="Contact" index={showIndex ? "08." : undefined} />
         </Reveal>
 
         <Reveal delay={80}>

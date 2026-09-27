@@ -7,7 +7,7 @@ export default function Skills() {
     <section id="skills" className="scroll-mt-20 border-b border-border bg-surface-2/50">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
-          <SectionHeading eyebrow="What I work with" title="Skills" index="05." />
+          <SectionHeading title="Skills" index="05." />
         </Reveal>
         <div className="columns-1 gap-4 md:columns-2">
           {skillGroups.map((group, i) => (

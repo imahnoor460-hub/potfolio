@@ -67,6 +67,7 @@ export type Project = {
   name: string;
   status: ProjectStatus;
   featured?: boolean;
+  homepage?: boolean;
   liveUrl?: string;
   image?: string;
   description: string;
@@ -79,6 +80,7 @@ export const projects: Project[] = [
     slug: "savora",
     name: "Savora",
     status: "Completed · Deployed",
+    homepage: true,
     liveUrl: "https://mahnoor-savora-one.vercel.app/",
     image: "/projects/savora.jpg",
     description:
@@ -90,6 +92,7 @@ export const projects: Project[] = [
     slug: "olx-clone",
     name: "OLX Clone",
     status: "Completed · Deployed",
+    homepage: true,
     liveUrl: "https://olx-frontend-eight.vercel.app/",
     image: "/projects/olx-clone.png",
     description:
@@ -129,6 +132,7 @@ export const projects: Project[] = [
     name: "Competitive Intelligence Monitor",
     status: "Completed · Deployed",
     featured: true,
+    homepage: true,
     liveUrl: "https://competitive-intelligence-monitor.vercel.app/",
     image: "/projects/dashboard.png",
     description:
@@ -197,5 +201,37 @@ export const certifications: Certification[] = [
     name: "Google Cloud Skills Boost — Public Profile",
     issuer: "Google",
     verifyUrl: "https://www.skills.google/public_profiles/0f1026d4-856c-4b37-949f-b7deea965478",
+  },
+];
+
+export type ArticleEntry = {
+  title: string;
+  summary: string;
+  date?: string;
+  url?: string;
+  image?: string;
+};
+
+export const articles: ArticleEntry[] = [
+  {
+    title:
+      "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
+    summary: "A write-up on building agentic workflows with LLMs.",
+    image: "/articles/agentic-workflows.jpg",
+    url: "https://medium.com/@imahnoor460/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
+  },
+  {
+    title:
+      "I Stopped SSH-ing Into My Server to Deploy: How to Build a Bulletproof Node.js CI/CD Pipeline with GitHub Actions",
+    summary:
+      "A practical guide to automating deployments with GitHub Actions so you never SSH into a server again.",
+    image: "/articles/fullstack-deploy.jpg",
+    url: "https://medium.com/@imahnoor460/i-stopped-ssh-ing-into-my-server-to-deploy-building-a-node-js-ci-cd-pipeline-with-github-actions-1043a188169a",
+  },
+  {
+    title: "Beyond the Context Window: Engineering Memory for Production AI Agents",
+    summary:
+      "A look at how to give AI agents durable, structured memory beyond a single context window — check back soon.",
+    image: "/articles/agent-memory.jpg",
   },
 ];

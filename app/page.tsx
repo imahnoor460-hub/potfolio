@@ -6,6 +6,7 @@ import Education from "@/components/Education";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
+import Articles from "@/components/Articles";
 import Footer from "@/components/Footer";
 import SectionDots from "@/components/SectionDots";
 
@@ -22,6 +23,7 @@ export default function Home() {
         <Projects />
         <Skills />
         <Certifications />
+        <Articles viewAllHref="/articles" />
       </main>
       <Footer />
     </div>
