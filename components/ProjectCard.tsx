@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               src={project.image}
               alt={`${project.name} screenshot`}
               fill
-              className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+              className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
             />
           </a>
         ) : (
@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               src={project.image}
               alt={`${project.name} screenshot`}
               fill
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         ))}

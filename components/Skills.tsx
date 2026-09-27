@@ -9,9 +9,13 @@ export default function Skills() {
         <Reveal>
           <SectionHeading eyebrow="What I work with" title="Skills" index="05." />
         </Reveal>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="columns-1 gap-4 md:columns-2">
           {skillGroups.map((group, i) => (
-            <Reveal key={group.category} delay={Math.min(i * 60, 240)}>
+            <Reveal
+              key={group.category}
+              delay={Math.min(i * 60, 240)}
+              className="mb-4 break-inside-avoid"
+            >
               <div className="rounded-xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md">
                 <p className="mb-3 font-mono text-xs font-semibold text-accent">
                   <span className="text-muted">#</span> {group.category}

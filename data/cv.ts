@@ -10,13 +10,31 @@ export const profile = {
     "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
 
-export const experience = {
-  company: "Arbisoft",
-  role: "AI Intern (Remote)",
-  period: "June 8, 2026 – August 7, 2026",
-  description:
-    "Built full-stack web applications using Django and React. Learned about MCP, embeddings, and LLMs, and applied that knowledge to integrate LLMs into applications and build agentic workflows.",
+export type ExperienceEntry = {
+  company: string;
+  role: string;
+  period?: string;
+  description: string;
+  certificateUrl?: string;
 };
+
+export const experiences: ExperienceEntry[] = [
+  {
+    company: "Arbisoft",
+    role: "AI Intern (Remote)",
+    period: "June 8, 2026 – August 7, 2026",
+    description:
+      "Built full-stack web applications using Django and React. Learned about MCP, embeddings, and LLMs, and applied that knowledge to integrate LLMs into applications and build agentic workflows.",
+    certificateUrl: "/documents/arbisoft-experience-letter.pdf",
+  },
+  {
+    company: "Arch Technologies",
+    role: "ML Intern (Remote)",
+    period: "September 1, 2026 – November 4, 2026",
+    description:
+      "Developed and evaluated machine learning models using Python, NumPy, Pandas, and Scikit-learn. Explored neural networks and deep learning with PyTorch, and worked on NLP tasks including text classification, embeddings, and transformers. Gained exposure to LLM application development, RAG pipelines, and vector databases.",
+  },
+];
 
 export type EducationEntry = {
   school: string;
@@ -131,6 +149,20 @@ export const skillGroups: SkillGroup[] = [
   { category: "3D Design & Tools", skills: ["Blender", "3D Modeling", "Environment Creation"] },
   { category: "Full-Stack Web", skills: ["Django", "React", "FastAPI", "Next.js"] },
   { category: "AI & LLMs", skills: ["LLM Integration", "Embeddings", "MCP", "Agentic Workflows"] },
+  {
+    category: "Machine Learning & NLP",
+    skills: [
+      "NumPy",
+      "Pandas",
+      "Scikit-learn",
+      "PyTorch",
+      "Neural Networks",
+      "NLP",
+      "Transformers",
+      "RAG",
+      "Vector Databases",
+    ],
+  },
   {
     category: "Cloud (AWS)",
     skills: ["EC2", "EKS", "CloudFront", "DynamoDB", "API Gateway", "S3", "CloudWatch"],
