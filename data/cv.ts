@@ -150,6 +150,7 @@ export const projects: Project[] = [
     name: "Portfolio AI Chat Assistant",
     status: "Completed · Deployed",
     homepage: true,
+    image: "/projects/portfolio-ai-assistant.png",
     description:
       "The chat widget on this site (bottom-right) — a RAG-grounded assistant that answers questions using this portfolio's real content, with voice input/output and a live GitHub tool so it can answer questions a static bio can't, like a repo's star count or what its README says.",
     tags: ["Next.js", "RAG", "Embeddings", "Tool Calling", "Web Speech API"],
