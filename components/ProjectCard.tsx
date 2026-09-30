@@ -13,7 +13,8 @@ export default function ProjectCard({ project }: { project: Project }) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative mb-4 -mx-6 -mt-6 aspect-video overflow-hidden rounded-t-xl border-b border-border bg-surface-2"
+            className="relative mb-4 -mx-6 -mt-6 overflow-hidden rounded-t-xl border-b border-border bg-surface-2"
+            style={{ aspectRatio: project.imageAspect ?? "16/9" }}
             aria-label={`Visit ${project.name} live site`}
           >
             <Image
@@ -24,7 +25,10 @@ export default function ProjectCard({ project }: { project: Project }) {
             />
           </a>
         ) : (
-          <div className="relative mb-4 -mx-6 -mt-6 aspect-video overflow-hidden rounded-t-xl border-b border-border bg-surface-2">
+          <div
+            className="relative mb-4 -mx-6 -mt-6 overflow-hidden rounded-t-xl border-b border-border bg-surface-2"
+            style={{ aspectRatio: project.imageAspect ?? "16/9" }}
+          >
             <Image
               src={project.image}
               alt={`${project.name} screenshot`}
