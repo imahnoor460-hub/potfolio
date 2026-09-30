@@ -70,9 +70,6 @@ export type Project = {
   homepage?: boolean;
   liveUrl?: string;
   image?: string;
-  // CSS aspect-ratio value, e.g. "482/560" for a portrait screenshot.
-  // Defaults to 16/9 (aspect-video) when unset.
-  imageAspect?: string;
   description: string;
   tags: string[];
   links: ProjectLink[];
@@ -154,7 +151,6 @@ export const projects: Project[] = [
     status: "Completed · Deployed",
     homepage: true,
     image: "/projects/portfolio-ai-assistant.png",
-    imageAspect: "482/560",
     description:
       "The chat widget on this site (bottom-right) — a RAG-grounded assistant that answers questions using this portfolio's real content, with voice input/output and a live GitHub tool so it can answer questions a static bio can't, like a repo's star count or what its README says.",
     tags: ["Next.js", "RAG", "Embeddings", "Tool Calling", "Web Speech API"],
