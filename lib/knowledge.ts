@@ -81,10 +81,13 @@ export function buildChunks(): Chunk[] {
   });
 
   for (const [i, a] of articles.entries()) {
+    const status = a.url
+      ? ` Link: ${a.url}`
+      : " (not yet published — don't offer a link for this one, just say it's upcoming)";
     chunks.push({
       id: `article:${i}`,
       category: "articles",
-      text: `Article — "${a.title}": ${a.summary}${a.url ? ` Link: ${a.url}` : ""}`,
+      text: `Article — "${a.title}": ${a.summary}${status}`,
     });
   }
 

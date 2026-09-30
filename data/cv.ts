@@ -86,7 +86,7 @@ export const projects: Project[] = [
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
-    links: [],
+    links: [{ label: "GitHub", href: "https://github.com/imahnoor460-hub/Savora" }],
   },
   {
     slug: "olx-clone",
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
-    links: [],
+    links: [{ label: "GitHub", href: "https://github.com/imahnoor460-hub/OLX-Clone." }],
   },
   {
     slug: "unity-game-development",
@@ -138,6 +138,21 @@ export const projects: Project[] = [
     description:
       "A dashboard that tracks competitors' websites, pricing, and updates, surfacing the findings in a live, easy-to-read view.",
     tags: ["Next.js", "Dashboard", "Data Visualization", "Web Scraping"],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/imahnoor460-hub/Competitive_Intelligence_Monitor_",
+      },
+    ],
+  },
+  {
+    slug: "portfolio-ai-assistant",
+    name: "Portfolio AI Chat Assistant",
+    status: "Completed · Deployed",
+    homepage: true,
+    description:
+      "The chat widget on this site (bottom-right) — a RAG-grounded assistant that answers questions using this portfolio's real content, with voice input/output and a live GitHub tool so it can answer questions a static bio can't, like a repo's star count or what its README says.",
+    tags: ["Next.js", "RAG", "Embeddings", "Tool Calling", "Web Speech API"],
     links: [],
   },
 ];
@@ -213,6 +228,12 @@ export type ArticleEntry = {
 };
 
 export const articles: ArticleEntry[] = [
+  {
+    title: "AI Agents Are Getting Employee IDs. What Does an Agent Need on Day One?",
+    summary:
+      "What AI agents actually need to operate safely and accountably — identity, scoped permissions, a dedicated workspace, spending limits, human approval gates, and a real offboarding process — treating agent infrastructure like employee onboarding, not just prompt engineering.",
+    image: "/articles/agent-employee-id.jpg",
+  },
   {
     title:
       "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
