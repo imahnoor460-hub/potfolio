@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
 import ParallaxBackground from "@/components/ParallaxBackground";
+import ChatWidget from "@/components/ChatWidget";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="cursor-spotlight" aria-hidden />
         <CustomCursor />
         {children}
+        <ChatWidget />
       </body>
     </html>
   );
