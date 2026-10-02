@@ -34,7 +34,7 @@ export function buildChunks(): Chunk[] {
   chunks.push({
     id: "profile",
     category: "profile",
-    text: `${profile.name} — ${profile.title}, based in ${profile.location}.\n${profile.summary}\nContact: email ${profile.email}, LinkedIn ${profile.linkedin}, GitHub ${profile.github}.`,
+    text: `${profile.name} — ${profile.title}, based in ${profile.location}.\n${profile.summary}\nContact: email ${profile.email}, LinkedIn ${profile.linkedin}, GitHub ${profile.github}, Medium ${profile.medium}.`,
   });
 
   chunks.push({

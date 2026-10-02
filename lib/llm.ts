@@ -203,8 +203,8 @@ async function placeholderReply(history: ChatMessage[]): Promise<string> {
     [...history].reverse().find((m) => m.role === "user")?.content ?? "";
   const q = lastUserMessage.toLowerCase();
 
-  if (/contact|email|reach|hire|linkedin|github/.test(q)) {
-    return `You can reach ${profile.name} at ${profile.email}, on LinkedIn (${profile.linkedin}), or GitHub (${profile.github}).`;
+  if (/contact|email|reach|hire|linkedin|github|medium/.test(q)) {
+    return `You can reach ${profile.name} at ${profile.email}, on LinkedIn (${profile.linkedin}), GitHub (${profile.github}), or Medium (${profile.medium}).`;
   }
   if (/project/.test(q)) {
     const p = projects[0];

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Mail, Phone, X } from "lucide-react";
 import GithubIcon from "@/components/GithubIcon";
 import LinkedinIcon from "@/components/LinkedinIcon";
+import MediumIcon from "@/components/MediumIcon";
 import { profile } from "@/data/cv";
 
 export default function Hero() {
@@ -119,6 +120,15 @@ export default function Hero() {
               className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-accent"
             >
               <LinkedinIcon size={20} />
+            </a>
+            <a
+              href={profile.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium"
+              className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-accent"
+            >
+              <MediumIcon size={20} />
             </a>
           </div>
 

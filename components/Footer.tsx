@@ -1,6 +1,7 @@
 import { Mail, Phone } from "lucide-react";
 import GithubIcon from "@/components/GithubIcon";
 import LinkedinIcon from "@/components/LinkedinIcon";
+import MediumIcon from "@/components/MediumIcon";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
@@ -57,6 +58,15 @@ export default function Footer({ showIndex = true }: { showIndex?: boolean }) {
             >
               <LinkedinIcon size={16} />
               LinkedIn
+            </a>
+            <a
+              href={profile.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2 font-medium text-foreground transition-colors hover:border-accent hover:bg-accent/5 hover:text-accent"
+            >
+              <MediumIcon size={16} />
+              Medium
             </a>
           </div>
         </Reveal>

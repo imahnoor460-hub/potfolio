@@ -6,6 +6,7 @@ export const profile = {
   email: "imahnoor460@gmail.com",
   github: "https://github.com/imahnoor460-hub",
   linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-8672a6362/",
+  medium: "https://medium.com/@imahnoor460",
   summary:
     "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
