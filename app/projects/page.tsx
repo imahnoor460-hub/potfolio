@@ -6,10 +6,13 @@ import Footer from "@/components/Footer";
 import ProjectCard from "@/components/ProjectCard";
 import FeaturedProject from "@/components/FeaturedProject";
 import { projects } from "@/data/cv";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "All projects built by Mahnoor Iftikhar.",
+  description:
+    "Full-stack, AI, and game development projects built by Mahnoor Iftikhar, including Savora, an OLX clone, and a Competitive Intelligence Monitor dashboard.",
+  alternates: { canonical: `${SITE_URL}/projects` },
 };
 
 export default function ProjectsPage() {

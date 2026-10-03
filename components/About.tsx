@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { profile } from "@/data/cv";
@@ -15,6 +17,13 @@ export default function About() {
               {profile.name}
             </p>
             <p className="leading-relaxed text-foreground/80">{profile.summary}</p>
+            <Link
+              href="/about"
+              className="mt-4 inline-flex items-center gap-1.5 font-mono text-sm font-semibold text-accent hover:underline"
+            >
+              Read full bio
+              <ArrowUpRight size={15} />
+            </Link>
           </div>
         </Reveal>
       </div>

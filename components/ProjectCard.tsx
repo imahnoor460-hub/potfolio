@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Braces, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/cv";
 
@@ -37,7 +38,9 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="mb-3 flex items-center justify-between gap-3">
         <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
           <Braces size={16} className="text-accent" />
-          {project.name}
+          <Link href={`/projects/${project.slug}`} className="hover:text-accent hover:underline">
+            {project.name}
+          </Link>
         </h3>
         <span
           className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${

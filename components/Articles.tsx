@@ -4,6 +4,7 @@ import { ArrowUpRight, ExternalLink, Newspaper } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { articles } from "@/data/cv";
+import { articleJsonLd, jsonLdScriptProps, publishedArticles } from "@/lib/seo";
 
 export default function Articles({
   limit,
@@ -18,6 +19,9 @@ export default function Articles({
 
   return (
     <section id="articles" className="scroll-mt-20 border-b border-border">
+      {publishedArticles.map((article) => (
+        <script key={article.url} {...jsonLdScriptProps(articleJsonLd(article))} />
+      ))}
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <Reveal>
           <SectionHeading title="Articles" index={showIndex ? "07." : undefined} />
@@ -64,13 +68,13 @@ export default function Articles({
             );
 
             return (
-              <Reveal key={article.title + i} delay={Math.min(i * 60, 240)}>
+              <Reveal key={article.title + i} delay={Math.min(i * 60, 240)} className="flex h-full flex-col">
                 {isLive ? (
                   <a
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block h-full"
+                    className="group block flex-1"
                     aria-label={`Read article: ${article.title}`}
                   >
                     {content}
@@ -78,6 +82,12 @@ export default function Articles({
                 ) : (
                   content
                 )}
+                <p className="mt-2 font-mono text-xs text-muted">
+                  By{" "}
+                  <Link href="/about" className="text-accent hover:underline">
+                    Mahnoor Iftikhar
+                  </Link>
+                </p>
               </Reveal>
             );
           })}

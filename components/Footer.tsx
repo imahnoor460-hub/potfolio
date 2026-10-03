@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import GithubIcon from "@/components/GithubIcon";
 import LinkedinIcon from "@/components/LinkedinIcon";
@@ -27,6 +28,12 @@ export default function Footer({ showIndex = true }: { showIndex?: boolean }) {
 
         <Reveal delay={160}>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+            <Link
+              href="/about"
+              className="flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2 font-medium text-foreground transition-colors hover:border-accent hover:bg-accent/5 hover:text-accent"
+            >
+              About {profile.name}
+            </Link>
             <a
               href={`mailto:${profile.email}`}
               className="flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2 font-medium text-foreground transition-colors hover:border-accent hover:bg-accent/5 hover:text-accent"

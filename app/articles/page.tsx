@@ -4,10 +4,13 @@ import { ArrowLeft } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Articles from "@/components/Articles";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Articles",
-  description: "Articles and write-ups by Mahnoor Iftikhar.",
+  description:
+    "Articles by Mahnoor Iftikhar on AI agents, LLM infrastructure, and full-stack deployment, published on Medium.",
+  alternates: { canonical: `${SITE_URL}/articles` },
 };
 
 export default function ArticlesPage() {

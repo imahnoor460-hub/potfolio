@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import ChatWidget from "@/components/ChatWidget";
+import { SITE_URL, personJsonLd, websiteJsonLd, jsonLdScriptProps } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.mahnooriftikhar.online"),
+  metadataBase: new URL(SITE_URL),
 
   title: {
     default: "Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
@@ -39,21 +40,28 @@ export const metadata: Metadata = {
     "Pakistan Developer",
   ],
 
-  authors: [{ name: "Mahnoor Iftikhar" }],
+  authors: [{ name: "Mahnoor Iftikhar", url: SITE_URL }],
   creator: "Mahnoor Iftikhar",
 
   alternates: {
-    canonical: "https://www.mahnooriftikhar.online",
+    canonical: SITE_URL,
   },
 
   openGraph: {
     type: "website",
-    url: "https://www.mahnooriftikhar.online",
+    url: SITE_URL,
     title: "Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
     description:
       "Portfolio of Mahnoor Iftikhar — Full-Stack Developer and AI Engineer building modern web applications and AI-powered solutions.",
     siteName: "Mahnoor Iftikhar",
     locale: "en_US",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
+    description:
+      "Portfolio of Mahnoor Iftikhar — Full-Stack Developer and AI Engineer building modern web applications and AI-powered solutions.",
   },
 
   robots: {
@@ -69,6 +77,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <script {...jsonLdScriptProps(personJsonLd())} />
+        <script {...jsonLdScriptProps(websiteJsonLd())} />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,

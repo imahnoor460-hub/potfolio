@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Braces, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/cv";
 
@@ -12,7 +13,9 @@ export default function FeaturedProject({ project }: { project: Project }) {
           </p>
           <h3 className="flex items-center gap-2 text-2xl font-semibold text-foreground md:text-3xl">
             <Braces size={22} className="text-accent" />
-            {project.name}
+            <Link href={`/projects/${project.slug}`} className="hover:text-accent hover:underline">
+              {project.name}
+            </Link>
           </h3>
           <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-accent/30 bg-accent/5 px-2.5 py-0.5 text-xs font-medium text-accent">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
