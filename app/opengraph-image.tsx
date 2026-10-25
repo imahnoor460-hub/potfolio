@@ -16,9 +16,9 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#f4ede1",
+          backgroundColor: "#0b0f17",
           backgroundImage:
-            "radial-gradient(circle at 15% 15%, rgba(192,80,44,0.22), transparent 55%)",
+            "radial-gradient(circle at 15% 15%, rgba(129,140,248,0.25), transparent 55%)",
         }}
       >
         <div
@@ -28,7 +28,7 @@ export default function Image() {
             gap: 10,
             fontFamily: "monospace",
             fontSize: 24,
-            color: "#c0502c",
+            color: "#818cf8",
           }}
         >
           <span
@@ -36,7 +36,7 @@ export default function Image() {
               width: 12,
               height: 12,
               borderRadius: "50%",
-              backgroundColor: "#c0502c",
+              backgroundColor: "#818cf8",
               display: "flex",
             }}
           />
@@ -47,7 +47,7 @@ export default function Image() {
             marginTop: 28,
             fontSize: 76,
             fontWeight: 700,
-            color: "#1f1b16",
+            color: "#e5e9f0",
             display: "flex",
           }}
         >
@@ -57,7 +57,7 @@ export default function Image() {
           style={{
             marginTop: 16,
             fontSize: 34,
-            color: "#6f6556",
+            color: "#9aa4b2",
             display: "flex",
           }}
         >
@@ -68,12 +68,12 @@ export default function Image() {
             marginTop: 36,
             fontSize: 24,
             fontFamily: "monospace",
-            color: "#2f5d62",
+            color: "#6b7280",
             display: "flex",
             gap: 16,
           }}
         >
-          <span style={{ display: "flex" }}>React · Next.js · Django</span>
+          <span style={{ display: "flex" }}>UCP · Computer Science</span>
           <span style={{ display: "flex" }}>·</span>
           <span style={{ display: "flex" }}>AI / LLMs / Agentic Workflows</span>
         </div>

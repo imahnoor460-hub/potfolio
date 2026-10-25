@@ -1,76 +1,121 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Braces, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/cv";
 
 export default function FeaturedProject({ project }: { project: Project }) {
   return (
-    <article className="group relative grid gap-10 md:grid-cols-[1.25fr_1fr] md:items-center">
-      <div className="relative">
-        <div className="paper-card relative p-4">
-          <div className="frame">
-            <div className="frame-inner aspect-[16/10]">
-              {project.image &&
-                (project.liveUrl ? (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-0"
-                    aria-label={`Visit ${project.name} live site`}
-                  >
-                    <Image
-                      src={project.image}
-                      alt={`${project.name} screenshot`}
-                      fill
-                      className="object-contain transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                  </a>
-                ) : (
-                  <Image src={project.image} alt={`${project.name} screenshot`} fill className="object-contain" />
-                ))}
+    <div className="group relative overflow-hidden rounded-xl border border-accent/30 bg-surface shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:bg-accent/[0.03] hover:shadow-lg">
+      <div className="grid gap-0 md:grid-cols-2">
+        <div className="flex flex-col justify-center p-6 md:p-10">
+          <p className="mb-3 font-mono text-xs font-semibold text-accent">
+            <span className="text-muted">{"//"}</span> Featured Project
+          </p>
+          <h3 className="flex items-center gap-2 text-2xl font-semibold text-foreground md:text-3xl">
+            <Braces size={22} className="text-accent" />
+            <Link href={`/projects/${project.slug}`} className="hover:text-accent hover:underline">
+              {project.name}
+            </Link>
+          </h3>
+          <span className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-accent/30 bg-accent/5 px-2.5 py-0.5 text-xs font-medium text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {project.status}
+          </span>
+
+          <p className="mt-4 text-sm leading-relaxed text-foreground/70 md:text-base">
+            {project.description}
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-xs text-muted">
+            {project.tags.map((tag) => (
+              <span key={tag} className="flex items-center gap-1">
+                <span className="text-accent">▹</span>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-3 text-sm">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 font-medium text-white transition-transform hover:-translate-y-0.5 hover:opacity-90"
+              >
+                Visit Live Site
+                <ArrowUpRight size={15} />
+              </a>
+            )}
+            {project.links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 rounded-md border border-border px-4 py-2 font-medium text-foreground/80 transition-colors hover:border-accent hover:bg-accent/5 hover:text-accent"
+              >
+                {link.label}
+                <ExternalLink size={14} />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {project.image ? (
+          <div className="relative aspect-video w-full border-t border-border bg-surface-2 md:aspect-auto md:h-full md:border-l md:border-t-0">
+            {project.liveUrl ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-6 md:inset-10"
+                aria-label={`Visit ${project.name} live site`}
+              >
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  fill
+                  className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                />
+              </a>
+            ) : (
+              <div className="absolute inset-6 md:inset-10">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="relative flex items-center justify-center border-t border-border bg-surface-2 p-6 md:border-l md:border-t-0 md:p-10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_60%)]" />
+            <div className="relative w-full max-w-sm overflow-hidden rounded-lg border border-border bg-surface shadow-lg">
+              <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-3 py-2">
+                <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+                <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
+                <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+                <span className="ml-1 truncate font-mono text-[11px] font-medium text-muted">
+                  {project.name}
+                </span>
+              </div>
+              <div className="space-y-3 p-4">
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="h-16 rounded border border-accent/30 bg-accent/5" />
+                  <div className="h-16 rounded bg-surface-2" />
+                  <div className="h-16 rounded bg-surface-2" />
+                </div>
+                <div className="h-2 w-full rounded bg-surface-2" />
+                <div className="h-2 w-5/6 rounded bg-surface-2" />
+                <div className="h-2 w-3/4 rounded bg-surface-2" />
+              </div>
             </div>
           </div>
-          <p className="font-serif mt-3 px-1 text-center text-sm italic text-muted">
-            {project.name} · {project.status}
-          </p>
-        </div>
+        )}
       </div>
-
-      <div>
-        <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-accent">
-          Featured project
-        </p>
-        <h3 className="font-serif mt-3 text-5xl leading-[0.95] text-foreground md:text-6xl">
-          <Link href={`/projects/${project.slug}`} className="ink-link">
-            {project.name}
-          </Link>
-        </h3>
-        <p className="mt-5 text-lg leading-relaxed text-foreground/75">{project.description}</p>
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="chip">
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-center gap-4">
-          {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink">
-              Visit live site
-              <ArrowUpRight size={15} />
-            </a>
-          )}
-          {project.links.map((link) => (
-            <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="btn-line">
-              {link.label}
-              <ExternalLink size={14} />
-            </a>
-          ))}
-        </div>
-      </div>
-    </article>
+    </div>
   );
 }

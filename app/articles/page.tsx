@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Articles from "@/components/Articles";
-import PageIntro from "@/components/PageIntro";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Articles",
   description:
-    "Articles by Mahnoor Iftikhar on building AI agents with long-term memory, the Model Context Protocol (MCP), LLM infrastructure, and CI/CD for full-stack deployment, published on Medium.",
+    "Articles by Mahnoor Iftikhar on AI agents, LLM infrastructure, and full-stack deployment, published on Medium.",
   alternates: { canonical: `${SITE_URL}/articles` },
 };
 
@@ -18,11 +19,13 @@ export default function ArticlesPage() {
       <Nav />
       <main className="flex-1">
         <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-20">
-          <PageIntro kicker="Writing" title="The" italic="journal">
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/70">
-              Notes on AI agents, LLM infrastructure, and shipping full-stack software.
-            </p>
-          </PageIntro>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-accent"
+          >
+            <ArrowLeft size={14} />
+            Back to home
+          </Link>
         </div>
         <Articles showIndex={false} />
       </main>

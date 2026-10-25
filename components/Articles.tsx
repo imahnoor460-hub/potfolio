@@ -1,46 +1,10 @@
-import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Newspaper } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import { articles, type ArticleEntry } from "@/data/cv";
+import { articles } from "@/data/cv";
 import { articleJsonLd, jsonLdScriptProps, publishedArticles } from "@/lib/seo";
-
-function formatDate(iso?: string) {
-  if (!iso) return undefined;
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function ArticleLink({ article, children, className = "" }: { article: ArticleEntry; children: ReactNode; className?: string }) {
-  if (!article.url) return <div className={className}>{children}</div>;
-  return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group block ${className}`}
-      aria-label={`Read article: ${article.title}`}
-    >
-      {children}
-    </a>
-  );
-}
-
-function Meta({ article }: { article: ArticleEntry }) {
-  return (
-    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-      {article.date ?? formatDate(article.datePublished) ?? (article.url ? "Medium" : "Coming soon")}
-      <span className="mx-2 text-accent">✦</span>
-      By <span className="text-foreground/80">Mahnoor Iftikhar</span>
-    </p>
-  );
-}
 
 export default function Articles({
   limit,
@@ -52,94 +16,92 @@ export default function Articles({
   showIndex?: boolean;
 }) {
   const items = limit ? articles.slice(0, limit) : articles;
-  const [lead, ...others] = items;
 
   return (
-    <section id="articles" className="scroll-mt-20 border-b border-border bg-surface-2/40">
+    <section id="articles" className="scroll-mt-20 border-b border-border">
       {publishedArticles.map((article) => (
         <script key={article.url} {...jsonLdScriptProps(articleJsonLd(article))} />
       ))}
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        {showIndex && (
-          <Reveal>
-            <SectionHeading title="From the *journal*" index="07." kicker="Articles" />
-          </Reveal>
-        )}
-
-        {lead && (
-          <Reveal>
-            <ArticleLink article={lead}>
-              <article className="grid gap-8 border-y-[1.5px] border-foreground py-8 md:grid-cols-[1.2fr_1fr] md:items-center md:gap-12">
-                {lead.image && (
-                  <div className="frame">
-                    <div className="frame-inner aspect-[16/9]">
-                      <Image
-                        src={lead.image}
-                        alt={`${lead.title} cover`}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                      />
-                    </div>
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+        <Reveal>
+          <SectionHeading title="Articles" index={showIndex ? "07." : undefined} />
+        </Reveal>
+        <div className="grid gap-4 md:grid-cols-3">
+          {items.map((article, i) => {
+            const isLive = Boolean(article.url);
+            const content = (
+              <div
+                className={`flex h-full flex-col overflow-hidden rounded-xl border transition-all ${
+                  isLive
+                    ? "border-border bg-surface shadow-sm hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/[0.03] hover:shadow-md"
+                    : "border-border/60 bg-surface-2/60"
+                }`}
+              >
+                {article.image && (
+                  <div className="relative aspect-video w-full border-b border-border bg-surface-2">
+                    <Image
+                      src={article.image}
+                      alt={`${article.title} cover`}
+                      fill
+                      className="object-contain"
+                    />
                   </div>
                 )}
-                <div>
-                  <p className="mb-3 inline-block rounded-full bg-accent px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-surface">
-                    Latest
-                  </p>
-                  <h3 className="font-serif text-3xl leading-[1.12] text-foreground transition-colors group-hover:text-accent md:text-4xl">
-                    {lead.title}
-                  </h3>
-                  <p className="mt-4 leading-relaxed text-foreground/70">{lead.summary}</p>
-                  <div className="mt-5 flex items-center justify-between gap-4">
-                    <Meta article={lead} />
-                    {lead.url && (
-                      <ArrowUpRight size={22} className="shrink-0 text-accent transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <div className="flex items-center gap-2">
+                    <Newspaper size={16} className="text-accent" />
+                    <span className="font-mono text-xs uppercase tracking-wide text-muted">
+                      {article.date ?? (isLive ? "Read on Medium" : "Coming soon")}
+                    </span>
+                  </div>
+                  <h3 className="flex items-center gap-1.5 text-base font-semibold text-foreground">
+                    {article.title}
+                    {isLive && (
+                      <ExternalLink size={13} className="flex-shrink-0 text-muted" />
                     )}
-                  </div>
+                  </h3>
+                  <p className="text-sm leading-relaxed text-foreground/70">
+                    {article.summary}
+                  </p>
                 </div>
-              </article>
-            </ArticleLink>
-          </Reveal>
-        )}
+              </div>
+            );
 
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {others.map((article, i) => (
-            <Reveal key={article.title} delay={Math.min(i * 80, 240)} className="h-full">
-              <ArticleLink article={article} className="h-full">
-                <article className="flex h-full flex-col">
-                  {article.image && (
-                    <div className="frame">
-                      <div className="frame-inner aspect-[16/10]">
-                        <Image
-                          src={article.image}
-                          alt={`${article.title} cover`}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                        />
-                      </div>
-                    </div>
-                  )}
-                  <div className="mt-5 flex flex-1 flex-col">
-                    <Meta article={article} />
-                    <h3 className="font-serif mt-2 text-2xl leading-tight text-foreground transition-colors group-hover:text-accent">
-                      {article.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">{article.summary}</p>
-                  </div>
-                </article>
-              </ArticleLink>
-            </Reveal>
-          ))}
+            return (
+              <Reveal key={article.title + i} delay={Math.min(i * 60, 240)} className="flex h-full flex-col">
+                {isLive ? (
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block flex-1"
+                    aria-label={`Read article: ${article.title}`}
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
+                <p className="mt-2 font-mono text-xs text-muted">
+                  By{" "}
+                  <Link href="/about" className="text-accent hover:underline">
+                    Mahnoor Iftikhar
+                  </Link>
+                </p>
+              </Reveal>
+            );
+          })}
         </div>
 
         {viewAllHref && (
           <Reveal delay={120}>
-            <div className="mt-14 flex justify-center">
-              <Link href={viewAllHref} className="btn-line">
-                Read the whole journal
-                <ArrowUpRight size={16} />
-              </Link>
-            </div>
+            <Link
+              href={viewAllHref}
+              className="mt-8 inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-4 py-2 font-mono text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent/5 hover:text-accent"
+            >
+              View All Articles
+              <ArrowUpRight size={16} />
+            </Link>
           </Reveal>
         )}
       </div>

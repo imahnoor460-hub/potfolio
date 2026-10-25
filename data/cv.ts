@@ -1,6 +1,6 @@
 export const profile = {
   name: "Mahnoor Iftikhar",
-  title: "Full-Stack Developer & AI Engineer",
+  title: "Computer Science Student · Full-Stack Developer & AI Engineer",
   location: "Lahore, Pakistan",
   phone: "+92 302-4717221",
   email: "imahnoor460@gmail.com",
@@ -8,7 +8,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-8672a6362/",
   medium: "https://medium.com/@imahnoor460",
   summary:
-    "Full-Stack Developer & AI Engineer with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
+    "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
 
 export type ExperienceEntry = {
@@ -225,38 +225,22 @@ export type ArticleEntry = {
   title: string;
   summary: string;
   date?: string;
-  /** ISO publish date, used only in Article JSON-LD. */
-  datePublished?: string;
-  keywords?: string[];
   url?: string;
   image?: string;
 };
 
 export const articles: ArticleEntry[] = [
   {
-    title: "How to Build a Personal AI Agent That Actually Remembers You",
+    title: "AI Agents Are Getting Employee IDs. What Does an Agent Need on Day One?",
     summary:
-      "A step-by-step guide to building a personal AI agent with long-term memory that persists across sessions — covering a five-layer agent architecture, memory design, tool options like MCP, skills, and scripts, security rules, and whether to build your own AI assistant or buy one.",
-    image: "/articles/personal-ai-agent.jpg",
-    datePublished: "2026-10-22",
-    keywords: [
-      "personal AI agent",
-      "AI agent memory",
-      "long-term memory",
-      "AI assistant",
-      "Model Context Protocol",
-      "MCP",
-      "agent architecture",
-      "LLM agents",
-    ],
-    url: "https://medium.com/@imahnoor460/how-to-build-a-personal-ai-agent-that-actually-remembers-you-a9c277adbe84",
+      "What AI agents actually need to operate safely and accountably — identity, scoped permissions, a dedicated workspace, spending limits, human approval gates, and a real offboarding process — treating agent infrastructure like employee onboarding, not just prompt engineering.",
+    image: "/articles/agent-employee-id.jpg",
   },
   {
     title:
       "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
     summary: "A write-up on building agentic workflows with LLMs.",
     image: "/articles/agentic-workflows.jpg",
-    datePublished: "2026-09-27",
     url: "https://medium.com/@imahnoor460/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
   },
   {
@@ -265,7 +249,6 @@ export const articles: ArticleEntry[] = [
     summary:
       "A practical guide to automating deployments with GitHub Actions so you never SSH into a server again.",
     image: "/articles/fullstack-deploy.jpg",
-    datePublished: "2026-09-27",
     url: "https://medium.com/@imahnoor460/i-stopped-ssh-ing-into-my-server-to-deploy-building-a-node-js-ci-cd-pipeline-with-github-actions-1043a188169a",
   },
   {
@@ -273,7 +256,6 @@ export const articles: ArticleEntry[] = [
     summary:
       "A look at how to give AI agents durable, structured memory beyond a single context window.",
     image: "/articles/agent-memory.jpg",
-    datePublished: "2026-09-27",
     url: "https://medium.com/@imahnoor460/beyond-the-context-window-engineering-memory-for-production-ai-agents-8199da181321",
   },
 ];

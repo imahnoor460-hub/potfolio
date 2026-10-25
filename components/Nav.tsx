@@ -47,30 +47,27 @@ export default function Nav() {
     href.includes("#") ? active === href : pathname === href;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
-        <a href="/#top" className="group flex items-center gap-3" aria-label="Mahnoor Iftikhar, home">
-          <span className="font-serif flex h-10 w-10 items-center justify-center rounded-full border-[1.5px] border-foreground text-lg italic text-foreground transition-all duration-300 group-hover:rotate-[-12deg] group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
-            MI
-          </span>
-          <span className="font-serif hidden text-2xl leading-none text-foreground sm:block">
-            Mahnoor <em className="italic text-accent">Iftikhar</em>
-          </span>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a
+          href="/#top"
+          className="font-mono text-xl font-bold text-foreground md:text-2xl"
+        >
+          Mahnoor Iftikhar
         </a>
 
-        <ul className="hidden items-center gap-0.5 lg:flex">
+        <ul className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className={`relative px-3 py-1.5 text-[13px] font-medium tracking-wide transition-colors ${
-                  isActive(link.href) ? "text-accent" : "text-muted hover:text-foreground"
+                className={`rounded-md px-3 py-1.5 font-mono text-sm font-medium transition-colors ${
+                  isActive(link.href)
+                    ? "bg-accent/10 text-accent"
+                    : "text-muted hover:bg-surface-2 hover:text-foreground"
                 }`}
               >
                 {link.label}
-                {isActive(link.href) && (
-                  <span aria-hidden className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-accent" />
-                )}
               </a>
             </li>
           ))}
@@ -83,7 +80,7 @@ export default function Nav() {
             type="button"
             aria-label="Toggle navigation menu"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-surface-2 lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-md text-foreground md:hidden"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -91,18 +88,19 @@ export default function Nav() {
       </nav>
 
       {open && (
-        <div className="border-t border-border bg-background px-6 py-6 lg:hidden">
+        <div className="border-t border-border px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-1">
-            {links.map((link, i) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`font-serif flex items-baseline gap-3 py-1.5 text-3xl transition-colors ${
-                    isActive(link.href) ? "italic text-accent" : "text-foreground hover:text-accent"
+                  className={`block rounded-md px-3 py-2 font-mono text-sm font-medium transition-colors ${
+                    isActive(link.href)
+                      ? "bg-accent/10 text-accent"
+                      : "text-muted hover:bg-surface-2 hover:text-foreground"
                   }`}
                 >
-                  <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
                   {link.label}
                 </a>
               </li>

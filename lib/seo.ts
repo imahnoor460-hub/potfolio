@@ -26,6 +26,10 @@ export function personJsonLd() {
     description: profile.summary,
     email: `mailto:${profile.email}`,
     image: `${SITE_URL}/opengraph-image`,
+    affiliation: {
+      "@type": "CollegeOrUniversity",
+      name: "University of Central Punjab",
+    },
     alumniOf: {
       "@type": "CollegeOrUniversity",
       name: "University of Central Punjab",
@@ -98,10 +102,6 @@ export function articleJsonLd(article: (typeof articles)[number]) {
     headline: article.title,
     description: article.summary,
     url: article.url,
-    mainEntityOfPage: article.url,
-    inLanguage: "en",
-    ...(article.datePublished ? { datePublished: article.datePublished } : {}),
-    ...(article.keywords ? { keywords: article.keywords.join(", ") } : {}),
     ...(article.image ? { image: `${SITE_URL}${article.image}` } : {}),
     // Reference the sitewide Person node by @id only — it's already fully
     // defined in app/layout.tsx on every page. Restating conflicting fields
