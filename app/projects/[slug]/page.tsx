@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Braces, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PageIntro from "@/components/PageIntro";
 import { profile, projects } from "@/data/cv";
 import { SITE_URL, projectJsonLd, jsonLdScriptProps } from "@/lib/seo";
 
@@ -55,103 +56,68 @@ export default async function ProjectPage({
       <Nav />
       <main className="flex-1">
         <section className="border-b border-border">
-          <div className="mx-auto max-w-3xl px-6 py-16 md:py-20">
-            <Link
-              href="/projects"
-              className="mb-6 inline-flex items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-accent"
-            >
-              <ArrowLeft size={14} />
-              Back to all projects
-            </Link>
+          <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+            <PageIntro backHref="/projects" backLabel="Back to all projects" kicker="Project" title={project.name}>
+              <div className="mt-6 flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                <span className={`flex items-center gap-1.5 ${isDeployed ? "text-accent-2" : ""}`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${isDeployed ? "bg-accent-2" : "bg-muted"}`} />
+                  {project.status}
+                </span>
+                <span aria-hidden className="h-px w-6 bg-border" />
+                <span>
+                  Built by{" "}
+                  <Link href="/about" className="text-accent hover:underline">
+                    {profile.name}
+                  </Link>
+                </span>
+              </div>
+            </PageIntro>
 
             {project.image && (
-              <div className="relative mb-8 aspect-video w-full overflow-hidden rounded-xl border border-border bg-surface-2">
-                <Image
-                  src={project.image}
-                  alt={`${project.name} screenshot`}
-                  fill
-                  className="object-contain"
-                  priority
-                />
+              <div className="paper-card mt-14 p-4">
+                <div className="frame">
+                  <div className="frame-inner aspect-video">
+                    <Image
+                      src={project.image}
+                      alt={`${project.name} screenshot`}
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
-            <div className="flex items-center justify-between gap-3">
-              <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                <Braces size={26} className="text-accent" />
-                {project.name}
-              </h1>
-              <span
-                className={`flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                  isDeployed
-                    ? "border-accent/30 bg-accent/5 text-accent"
-                    : "border-border text-muted"
-                }`}
-              >
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${isDeployed ? "bg-accent" : "bg-muted"}`}
-                />
-                {project.status}
-              </span>
-            </div>
-
-            <p className="mt-2 font-mono text-sm text-muted">
-              Built by{" "}
-              <Link href="/about" className="text-accent hover:underline">
-                {profile.name}
-              </Link>
-            </p>
-
-            <p className="mt-6 leading-relaxed text-foreground/80">{project.description}</p>
-
-            <div className="mt-6">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-                Technology Stack
-              </h2>
-              <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-xs text-muted">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="flex items-center gap-1">
-                    <span className="text-accent">▹</span>
-                    {tag}
-                  </span>
-                ))}
+            <div className="mt-14 grid gap-10 md:grid-cols-[1.6fr_1fr]">
+              <p className="font-serif text-[1.6rem] leading-snug text-foreground">{project.description}</p>
+              <div>
+                <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Technology stack</h2>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="chip">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {(project.liveUrl || project.links.length > 0) && (
-              <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-border pt-6 text-sm">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-md bg-accent px-4 py-2 font-medium text-white transition-opacity hover:opacity-90"
-                  >
-                    Visit Live Site
-                    <ArrowUpRight size={15} />
-                  </a>
-                )}
-                {project.links.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-md border border-border px-4 py-2 font-medium text-foreground/80 transition-colors hover:border-accent hover:bg-accent/5 hover:text-accent"
-                  >
-                    {link.label}
-                    <ExternalLink size={14} />
-                  </a>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-10">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-4 py-2 font-mono text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent/5 hover:text-accent"
-              >
-                View All Projects
+            <div className="mt-12 flex flex-wrap items-center gap-4 border-t border-dashed border-border pt-8">
+              {project.liveUrl && (
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink">
+                  Visit live site
+                  <ArrowUpRight size={15} />
+                </a>
+              )}
+              {project.links.map((link) => (
+                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="btn-line">
+                  {link.label}
+                  <ExternalLink size={14} />
+                </a>
+              ))}
+              <Link href="/projects" className="btn-line">
+                View all projects
                 <ArrowUpRight size={16} />
               </Link>
             </div>

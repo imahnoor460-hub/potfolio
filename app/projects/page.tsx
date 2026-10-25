@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PageIntro from "@/components/PageIntro";
 import ProjectCard from "@/components/ProjectCard";
 import FeaturedProject from "@/components/FeaturedProject";
 import { projects } from "@/data/cv";
@@ -24,27 +23,22 @@ export default function ProjectsPage() {
       <Nav />
       <main className="flex-1">
         <section className="border-b border-border">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-            <Link
-              href="/"
-              className="mb-6 inline-flex items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-accent"
-            >
-              <ArrowLeft size={14} />
-              Back to home
-            </Link>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              All Projects
-            </h1>
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <PageIntro kicker="The collection" title="All" italic="projects">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/70">
+                Full-stack products, AI tools, games, and 3D worlds — everything I&apos;ve built, in one place.
+              </p>
+            </PageIntro>
 
-            <div className="mt-10 space-y-8">
+            <div className="mt-20 space-y-16">
               {featured.map((project) => (
                 <FeaturedProject key={project.slug} project={project} />
               ))}
             </div>
 
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {rest.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+            <div className="mt-20 grid gap-10 md:grid-cols-2">
+              {rest.map((project, i) => (
+                <ProjectCard key={project.slug} project={project} index={i} />
               ))}
             </div>
           </div>

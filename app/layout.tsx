@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import ChatWidget from "@/components/ChatWidget";
 import { SITE_URL, personJsonLd, websiteJsonLd, jsonLdScriptProps } from "@/lib/seo";
 import "./globals.css";
 
+// Same fonts as the deployed site: Geist for everything, Geist Mono for labels.
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,6 +15,14 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Real serif italic for accent words inside headings (e.g. "Iftikhar").
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-accent",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +34,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Mahnoor Iftikhar is a Computer Science student and Full-Stack Developer specializing in React, Next.js, Python, AI, LLMs, and modern web applications.",
+    "Mahnoor Iftikhar is a Full-Stack Developer & AI Engineer from Lahore, Pakistan, specializing in React, Next.js, Django, Python, LLMs, AI agents, and agentic workflows.",
 
   keywords: [
     "Mahnoor Iftikhar",
@@ -36,8 +45,12 @@ export const metadata: Metadata = {
     "React Developer",
     "Next.js Developer",
     "Python Developer",
-    "Computer Science Student",
+    "Django Developer",
+    "LLM Engineer",
+    "AI Agents",
+    "Agentic Workflows",
     "Pakistan Developer",
+    "Lahore Developer",
   ],
 
   authors: [{ name: "Mahnoor Iftikhar", url: SITE_URL }],
@@ -73,7 +86,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
@@ -85,7 +98,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
         <ParallaxBackground />
-        <div className="cursor-spotlight" aria-hidden />
         <CustomCursor />
         {children}
         <ChatWidget />
