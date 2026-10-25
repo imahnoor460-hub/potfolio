@@ -42,7 +42,7 @@ export default function SectionDots() {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed left-6 top-24 bottom-10 z-40 hidden lg:flex"
+      className="fixed left-6 top-24 bottom-10 z-40 hidden xl:flex"
     >
       <div className="relative flex h-full flex-col items-center justify-between">
         <div
@@ -70,13 +70,13 @@ export default function SectionDots() {
               className="group relative z-10 flex h-3 w-3 items-center justify-center"
             >
               <span
-                className={`h-2 w-2 rounded-full border transition-all duration-300 ${
+                className={`h-2 w-2 rotate-45 border transition-all duration-300 ${
                   isActive
-                    ? "scale-125 border-accent bg-accent shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent)_20%,transparent)]"
-                    : "border-border bg-surface group-hover:border-accent group-hover:bg-accent/50"
+                    ? "scale-150 border-accent bg-accent"
+                    : "border-foreground/40 bg-background group-hover:border-accent group-hover:bg-accent/50"
                 }`}
               />
-              <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-border bg-surface px-2 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+              <span className="font-serif pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-border bg-surface px-3 py-0.5 text-base italic text-foreground opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
                 {section.label}
               </span>
             </a>

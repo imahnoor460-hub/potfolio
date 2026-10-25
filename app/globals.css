@@ -1,25 +1,33 @@
 @import "tailwindcss";
 
+/*
+ * "Studio journal" theme — warm paper, ink, and a terracotta accent.
+ * Every component reads these tokens, so both themes stay in sync.
+ */
 :root {
-  --background: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --foreground: #0f172a;
-  --muted: #64748b;
-  --accent: #4f46e5;
-  --accent-2: #0ea5e9;
+  --background: #f4ede1;
+  --surface: #fbf7f0;
+  --surface-2: #ece3d3;
+  --border: #d9ccb8;
+  --foreground: #1f1b16;
+  --muted: #6f6556;
+  --accent: #c0502c;
+  --accent-2: #2f5d62;
+  --accent-3: #d9a13b;
+  --shadow-ink: rgba(31, 27, 22, 0.9);
 }
 
 :root[data-theme="dark"] {
-  --background: #0b0f17;
-  --surface: #11161f;
-  --surface-2: #171d29;
-  --border: #262e3d;
-  --foreground: #e5e9f0;
-  --muted: #8b95a7;
-  --accent: #818cf8;
-  --accent-2: #38bdf8;
+  --background: #16130f;
+  --surface: #1e1a15;
+  --surface-2: #29231c;
+  --border: #3a3229;
+  --foreground: #f1e8d8;
+  --muted: #a89c88;
+  --accent: #e8794f;
+  --accent-2: #7fb5b5;
+  --accent-3: #e6b75a;
+  --shadow-ink: rgba(0, 0, 0, 0.85);
 }
 
 @theme inline {
@@ -31,37 +39,403 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-geist-sans);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  transition: background-color 0.2s ease, color 0.2s ease;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px);
-  background-size: 42px 42px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Paper grain over the whole page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.33  0 0 0 0 0.25  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+:root[data-theme="dark"] body::before {
+  mix-blend-mode: screen;
+  opacity: 0.18;
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--background);
+  color: var(--surface);
 }
 
-.cursor-spotlight {
-  position: fixed;
+/* Display headings: Geist at medium weight with relaxed tracking. Italic
+   accent words inside them switch to a real serif italic. */
+.font-serif {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.font-serif em,
+.font-serif .italic,
+.font-serif.italic {
+  font-family: var(--font-accent), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Serif italics run small next to Geist; nudge accent words up to match. */
+.font-serif em,
+.font-serif .italic {
+  font-size: 1.12em;
+  line-height: 0.9;
+}
+
+/* ---------- Reusable pieces ---------- */
+
+.paper-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 var(--border), 0 18px 30px -24px var(--shadow-ink);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.paper-card.lift:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  box-shadow: 0 1px 0 var(--border), 0 28px 50px -30px var(--shadow-ink);
+}
+
+/* A strip of masking tape pinned to the top of a card. */
+.tape::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 92px;
+  height: 22px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--accent-3) 38%, transparent);
+  border-left: 1px dashed color-mix(in srgb, var(--foreground) 12%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--foreground) 12%, transparent);
+  backdrop-filter: blur(1px);
+}
+
+.tape-left::after {
+  left: 18%;
+  transform: translateX(-50%) rotate(-6deg);
+}
+
+.tape-right::after {
+  left: 82%;
+  transform: translateX(-50%) rotate(5deg);
+}
+
+/* Passe-partout mat around images, like a framed print. */
+.frame {
+  background: var(--surface);
+  padding: 12px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--foreground) 6%, transparent);
+}
+
+.frame-inner {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: inset 0 2px 8px color-mix(in srgb, var(--foreground) 14%, transparent);
+}
+
+.btn-ink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn-ink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -14px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.btn-ink:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--foreground);
+  background: transparent;
+  color: var(--foreground);
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-line:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+  transform: translateY(-2px);
+}
+
+/* Light, floating 3D card (TiltCard): translucent surface, soft layered
+   shadow with a warm tint, and a sheen that follows the cursor. */
+.tilt-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --sx: 50%;
+  --sy: 0%;
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, white 60%, transparent) inset,
+    0 30px 60px -32px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 14px 30px -18px color-mix(in srgb, var(--foreground) 22%, transparent);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+
+/* Background lives on its own layer: overflow/backdrop-filter on the card
+   itself would flatten the 3D children. */
+.tilt-card::before {
+  content: "";
+  position: absolute;
   inset: 0;
-  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+    color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.tilt-card > * {
+  position: relative;
+}
+
+.tilt-card[data-active="true"] {
+  transition: transform 0.12s ease-out, box-shadow 0.4s ease;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, white 60%, transparent) inset,
+    0 40px 70px -30px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 18px 36px -18px color-mix(in srgb, var(--foreground) 25%, transparent);
+}
+
+.tilt-sheen {
   pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
   background: radial-gradient(
-    550px circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
-    color-mix(in srgb, var(--accent) 14%, transparent),
-    transparent 70%
+    500px circle at var(--sx) var(--sy),
+    color-mix(in srgb, white 45%, transparent),
+    transparent 45%
+  );
+  transition: opacity 0.4s ease;
+}
+
+.tilt-card[data-active="true"] .tilt-sheen {
+  opacity: 0.6;
+}
+
+:root[data-theme="dark"] .tilt-sheen {
+  background: radial-gradient(
+    500px circle at var(--sx) var(--sy),
+    color-mix(in srgb, white 10%, transparent),
+    transparent 45%
   );
 }
+
+/* Raised layers inside a tilt card. */
+.depth-1 {
+  transform: translateZ(20px);
+}
+
+.depth-2 {
+  transform: translateZ(40px);
+}
+
+.depth-3 {
+  transform: translateZ(55px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Numbers set in the serif italic (About "At a glance"). */
+.num-accent {
+  font-family: var(--font-accent), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Skill chips tinted with their domain's swatch colour (--chip). Text mixes
+   the colour with ink so it stays readable, even on the light gold. */
+.chip.chip-tinted {
+  border-color: color-mix(in srgb, var(--chip) 45%, transparent);
+  background: color-mix(in srgb, var(--chip) 9%, transparent);
+  color: color-mix(in srgb, var(--chip) 60%, var(--foreground));
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.group:hover .chip.chip-tinted,
+.chip.chip-tinted:hover {
+  border-color: var(--chip);
+  background: color-mix(in srgb, var(--chip) 20%, transparent);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--foreground) 82%, transparent);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.chip:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+  transform: rotate(-2deg);
+}
+
+/* Underline that looks marker-drawn; used on links and highlighted words. */
+.ink-link {
+  background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent-3) 45%, transparent) 62%);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s ease;
+}
+
+.ink-link:hover {
+  background-size: 100% 100%;
+}
+
+.highlight {
+  background-image: linear-gradient(104deg, transparent 2%, color-mix(in srgb, var(--accent-3) 50%, transparent) 4%, color-mix(in srgb, var(--accent-3) 40%, transparent) 96%, transparent 98%);
+  background-size: 100% 42%;
+  background-position: 0 85%;
+  background-repeat: no-repeat;
+  padding: 0 0.1em;
+}
+
+:root[data-theme="dark"] .highlight {
+  background-image: linear-gradient(104deg, transparent 2%, color-mix(in srgb, var(--accent-3) 26%, transparent) 4%, color-mix(in srgb, var(--accent-3) 20%, transparent) 96%, transparent 98%);
+  background-size: 100% 30%;
+}
+
+.dropcap::first-letter {
+  float: left;
+  font-family: var(--font-accent), Georgia, serif;
+  font-size: 4.2em;
+  line-height: 0.8;
+  padding: 0.08em 0.12em 0 0;
+  color: var(--accent);
+}
+
+/* Squiggle drawn on scroll-in (stroke-dash animation). */
+.draw-path {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.4s forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- Marquee ---------- */
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ---------- Rotating badge ---------- */
+
+.spin-slow {
+  animation: spin 22s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.float-y {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* ---------- Background art (parallax) ---------- */
 
 .parallax-bg {
   position: fixed;
@@ -78,48 +452,41 @@ body {
   will-change: transform;
 }
 
-.parallax-glow {
+.parallax-shape {
   position: absolute;
-  width: 34vw;
-  height: 34vw;
-  max-width: 520px;
-  max-height: 520px;
-  border-radius: 50%;
-  filter: blur(80px);
+  color: var(--foreground);
+  opacity: 0.09;
 }
 
-.parallax-glow-a {
-  top: 6vh;
-  left: -6vw;
-  background: color-mix(in srgb, var(--accent) 20%, transparent);
+.parallax-wash {
+  position: absolute;
+  width: 38vw;
+  height: 38vw;
+  max-width: 560px;
+  max-height: 560px;
+  border-radius: 46% 54% 60% 40% / 50% 42% 58% 50%;
+  filter: blur(70px);
 }
 
-.parallax-glow-b {
-  top: 70vh;
+.parallax-wash-a {
+  top: 2vh;
   right: -8vw;
-  background: color-mix(in srgb, var(--accent-2) 16%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
-.parallax-glow-c {
-  top: 150vh;
-  left: 22vw;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-}
-
-.parallax-glow-d {
-  top: 240vh;
-  right: 8vw;
+.parallax-wash-b {
+  top: 90vh;
+  left: -10vw;
   background: color-mix(in srgb, var(--accent-2) 14%, transparent);
 }
 
-.parallax-glyph {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-weight: 600;
-  color: color-mix(in srgb, var(--foreground) 7%, transparent);
-  letter-spacing: -0.02em;
-  user-select: none;
+.parallax-wash-c {
+  top: 190vh;
+  right: 4vw;
+  background: color-mix(in srgb, var(--accent-3) 16%, transparent);
 }
+
+/* ---------- Custom cursor ---------- */
 
 .cursor-point-wrap {
   position: fixed;
@@ -132,19 +499,18 @@ body {
 }
 
 .cursor-point {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
-  transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border 0.25s ease;
 }
 
 .cursor-point.cursor-point-active {
-  width: 14px;
-  height: 14px;
-  background: var(--accent-2);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-2) 18%, transparent);
+  width: 38px;
+  height: 38px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1.5px solid var(--accent);
 }
 
 html.custom-cursor-active,
@@ -158,22 +524,7 @@ html.custom-cursor-active * {
   }
 }
 
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
-  }
-  50% {
-    opacity: 0.7;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-}
-
-.animate-pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
+/* Blinking terminal cursor (hero console). */
 @keyframes blink-caret {
   0%,
   100% {
@@ -188,31 +539,32 @@ html.custom-cursor-active * {
   animation: blink-caret 1s step-end infinite;
 }
 
-.bracket-hover {
-  position: relative;
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
 }
 
-.bracket-hover::before,
-.bracket-hover::after {
-  color: var(--accent);
-  opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
-.bracket-hover::before {
-  content: "<";
-  margin-right: 2px;
-  transform: translateX(4px);
-}
-
-.bracket-hover::after {
-  content: "/>";
-  margin-left: 2px;
-  transform: translateX(-4px);
-}
-
-.bracket-hover:hover::before,
-.bracket-hover:hover::after {
-  opacity: 1;
-  transform: translateX(0);
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .spin-slow,
+  .float-y,
+  .animate-caret,
+  .animate-pulse-dot {
+    animation: none;
+  }
+  .draw-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
