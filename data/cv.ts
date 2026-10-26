@@ -5,7 +5,7 @@ export const profile = {
   phone: "+92 302-4717221",
   email: "imahnoor460@gmail.com",
   github: "https://github.com/imahnoor460-hub",
-  linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-8672a6362/",
+  linkedin: "https://www.linkedin.com/in/mahnoorift/",
   medium: "https://medium.com/@imahnoor460",
   summary:
     "Full-Stack Developer & AI Engineer with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
