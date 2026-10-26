@@ -4,9 +4,9 @@ export const profile = {
   location: "Lahore, Pakistan",
   phone: "+92 302-4717221",
   email: "imahnoor460@gmail.com",
-  github: "https://github.com/mahnoorift",
-  linkedin: "https://www.linkedin.com/in/mahnoorift/",
-  medium: "https://medium.com/@mahnoor-iftikhar",
+  github: "https://github.com/imahnoor460-hub",
+  linkedin: "https://www.linkedin.com/in/mahnoor-iftikhar-8672a6362/",
+  medium: "https://medium.com/@imahnoor460",
   summary:
     "Computer Science student at UCP with hands-on experience building full-stack web applications using Django, React, FastAPI, and Next.js, and integrating LLMs into AI-powered, agentic workflows. Also skilled in Unity and Blender, with a background in game development and 3D design.",
 };
@@ -87,7 +87,7 @@ export const projects: Project[] = [
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
-    links: [{ label: "GitHub", href: "https://github.com/mahnoorift/Savora" }],
+    links: [{ label: "GitHub", href: "https://github.com/imahnoor460-hub/Savora" }],
   },
   {
     slug: "olx-clone",
@@ -99,7 +99,7 @@ export const projects: Project[] = [
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
-    links: [{ label: "GitHub", href: "https://github.com/mahnoorift/OLX-Clone." }],
+    links: [{ label: "GitHub", href: "https://github.com/imahnoor460-hub/OLX-Clone." }],
   },
   {
     slug: "unity-game-development",
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "GitHub",
-        href: "https://github.com/mahnoorift/Competitive_Intelligence_Monitor_",
+        href: "https://github.com/imahnoor460-hub/Competitive_Intelligence_Monitor_",
       },
     ],
   },
@@ -241,7 +241,7 @@ export const articles: ArticleEntry[] = [
       "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
     summary: "A write-up on building agentic workflows with LLMs.",
     image: "/articles/agentic-workflows.jpg",
-    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
+    url: "https://medium.com/@imahnoor460/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
   },
   {
     title:
@@ -249,13 +249,13 @@ export const articles: ArticleEntry[] = [
     summary:
       "A practical guide to automating deployments with GitHub Actions so you never SSH into a server again.",
     image: "/articles/fullstack-deploy.jpg",
-    url: "https://medium.com/@mahnoor-iftikhar/i-stopped-ssh-ing-into-my-server-to-deploy-building-a-node-js-ci-cd-pipeline-with-github-actions-1043a188169a",
+    url: "https://medium.com/@imahnoor460/i-stopped-ssh-ing-into-my-server-to-deploy-building-a-node-js-ci-cd-pipeline-with-github-actions-1043a188169a",
   },
   {
     title: "Beyond the Context Window: Engineering Memory for Production AI Agents",
     summary:
       "A look at how to give AI agents durable, structured memory beyond a single context window.",
     image: "/articles/agent-memory.jpg",
-    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-context-window-engineering-memory-for-production-ai-agents-8199da181321",
+    url: "https://medium.com/@imahnoor460/beyond-the-context-window-engineering-memory-for-production-ai-agents-8199da181321",
   },
 ];
