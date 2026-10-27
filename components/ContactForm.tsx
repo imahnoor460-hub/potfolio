@@ -37,12 +37,12 @@ export default function ContactForm() {
   }
 
   const fieldClass =
-    "w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20";
-  const labelClass = "mb-1.5 block text-xs font-medium text-muted";
+    "w-full border-0 border-b-[1.5px] border-foreground/25 bg-transparent px-0 py-2 text-base text-foreground placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-0";
+  const labelClass = "block font-mono text-[10px] uppercase tracking-[0.2em] text-muted";
 
   return (
     <form onSubmit={handleSubmit} className="text-left">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
             Name
@@ -71,7 +71,7 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6">
         <label htmlFor="message" className={labelClass}>
           Message
         </label>
@@ -79,26 +79,26 @@ export default function ContactForm() {
           id="message"
           name="message"
           required
-          rows={5}
+          rows={4}
           placeholder="What would you like to say?"
           className={`${fieldClass} resize-none`}
         />
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-4">
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+          className="btn-ink disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Send size={16} />
-          {status === "submitting" ? "Sending…" : "Send Message"}
+          <Send size={15} />
+          {status === "submitting" ? "Sending…" : "Send message"}
         </button>
         {status === "success" && (
-          <p className="text-xs font-medium text-green-600">Thanks! Your message has been sent.</p>
+          <p className="text-sm font-medium text-accent-2">Thanks! Your message has been sent.</p>
         )}
         {status === "error" && (
-          <p className="text-xs font-medium text-red-500">Something went wrong. Please try again.</p>
+          <p className="text-sm font-medium text-accent">Something went wrong. Please try again.</p>
         )}
       </div>
     </form>
