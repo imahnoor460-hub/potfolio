@@ -180,21 +180,7 @@ export const skillGroups: SkillGroup[] = [
   { category: "Game Development", skills: ["Unity", "Game Mechanics", "Scene Design"] },
   { category: "3D Design & Tools", skills: ["Blender", "3D Modeling", "Environment Creation"] },
   { category: "Full-Stack Web", skills: ["Django", "React", "FastAPI", "Next.js"] },
-  { category: "AI & LLMs", skills: ["LLM Integration", "Embeddings", "MCP", "Agentic Workflows"] },
-  {
-    category: "Machine Learning & NLP",
-    skills: [
-      "NumPy",
-      "Pandas",
-      "Scikit-learn",
-      "PyTorch",
-      "Neural Networks",
-      "NLP",
-      "Transformers",
-      "RAG",
-      "Vector Databases",
-    ],
-  },
+  { category: "AI & LLMs", skills: ["LLM Integration", "Embeddings", "MCP", "Agentic Workflows", "RAG", "Vector Databases"] },
   {
     category: "Cloud (AWS)",
     skills: ["EC2", "EKS", "CloudFront", "DynamoDB", "API Gateway", "S3", "CloudWatch"],

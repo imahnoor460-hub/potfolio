@@ -31,11 +31,10 @@ export function siteGraphJsonLd() {
         knowsAbout: [
           "Full-Stack Web Development",
           "Artificial Intelligence",
-          "Machine Learning",
           "Large Language Models",
           "Agentic Workflows",
           ...skillGroups
-            .filter((g) => /web|ai|machine/i.test(g.category))
+            .filter((g) => /web|ai/i.test(g.category))
             .flatMap((g) => g.skills),
         ],
         sameAs: [profile.github, profile.linkedin, profile.medium],

@@ -9,7 +9,7 @@ export const ogAlt = `${profile.name} — ${profile.title}`;
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
 
-const highlights = ["AI Agents", "Machine Learning", "Django · React · Next.js"];
+const highlights = ["AI Agents", "LLMs & RAG", "Django · React · Next.js"];
 
 export function renderOgCard() {
   return new ImageResponse(

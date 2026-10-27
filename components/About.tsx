@@ -1,4 +1,4 @@
-import { Brain, Code2, Gamepad2, Workflow } from "lucide-react";
+import { Cloud, Code2, Gamepad2, Workflow } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { profile } from "@/data/cv";
@@ -15,9 +15,9 @@ const STRENGTHS = [
     text: "Integrating LLMs into products: agentic workflows, MCP tools, embeddings, and RAG pipelines.",
   },
   {
-    icon: Brain,
-    title: "Machine learning",
-    text: "Training and evaluating models with Scikit-learn and PyTorch, and NLP with transformers.",
+    icon: Cloud,
+    title: "Cloud & delivery",
+    text: "Deploying on AWS with EC2, EKS, S3 and CloudFront, and automating releases with GitHub Actions CI/CD.",
   },
   {
     icon: Gamepad2,

@@ -21,7 +21,7 @@ export default function Articles() {
                   Latest <span className="brush text-gradient">articles</span>
                 </>
               }
-              intro="Practical write-ups on AI agents, machine learning, and shipping software."
+              intro="Practical write-ups on AI agents, LLMs, and shipping software."
             />
           </Reveal>
           {articles.length > HOME_COUNT && (

@@ -13,17 +13,16 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
 export const SITE_TITLE = `${profile.name} | Full-Stack Developer & AI Engineer`;
 
 export const SITE_DESCRIPTION =
-  "Mahnoor Iftikhar is a Full-Stack Developer and AI Engineer in Lahore, Pakistan, building Django, React and Next.js apps, LLM agents, and ML models.";
+  "Mahnoor Iftikhar is a Full-Stack Developer and AI Engineer in Lahore, Pakistan, building Django, React and Next.js apps, LLM agents, and RAG pipelines.";
 
 export const SOCIAL_DESCRIPTION =
-  "Portfolio of Mahnoor Iftikhar — Full-Stack Developer and AI Engineer building web apps, AI agents, and ML models.";
+  "Portfolio of Mahnoor Iftikhar — Full-Stack Developer and AI Engineer building web apps, AI agents, and RAG-powered assistants.";
 
 export const SITE_KEYWORDS = [
   "Mahnoor Iftikhar",
   "Mahnoor Iftikhar portfolio",
   "Full-Stack Developer",
   "AI Engineer",
-  "Machine Learning Engineer",
   "AI Agents",
   "Agentic Workflows",
   "LLM Integration",

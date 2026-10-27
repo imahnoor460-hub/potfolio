@@ -6,16 +6,12 @@ import {
   siFirebase,
   siMysql,
   siNextdotjs,
-  siNumpy,
   siOpenjdk,
-  siPandas,
   siPython,
-  siPytorch,
   siReact,
-  siScikitlearn,
   siUnity,
 } from "simple-icons";
-import { Box, Brain, Cloud, Code2, Gamepad2, LayoutTemplate, Sparkles, Wrench } from "lucide-react";
+import { Box, Cloud, Code2, Gamepad2, LayoutTemplate, Sparkles, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
@@ -33,17 +29,12 @@ const LOGOS: Record<string, string> = {
   React: siReact.path,
   FastAPI: siFastapi.path,
   "Next.js": siNextdotjs.path,
-  NumPy: siNumpy.path,
-  Pandas: siPandas.path,
-  "Scikit-learn": siScikitlearn.path,
-  PyTorch: siPytorch.path,
   "Firebase (Basic)": siFirebase.path,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "AI & LLMs": Sparkles,
   "Full-Stack Web": LayoutTemplate,
-  "Machine Learning & NLP": Brain,
   "Programming Languages": Code2,
   "Game Development": Gamepad2,
   "3D Design & Tools": Box,
@@ -53,7 +44,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
 
 export default function Skills() {
   // Lead with the areas the work centres on.
-  const lead = ["AI & LLMs", "Full-Stack Web", "Machine Learning & NLP"];
+  const lead = ["AI & LLMs", "Full-Stack Web", "Cloud (AWS)"];
   const groups = [
     ...lead.flatMap((c) => skillGroups.filter((g) => g.category === c)),
     ...skillGroups.filter((g) => !lead.includes(g.category)),

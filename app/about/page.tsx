@@ -10,7 +10,7 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 import { PERSON_ID, absoluteUrl, baseOpenGraph, baseTwitter, defaultSocialImage } from "@/lib/site";
 
 const DESCRIPTION =
-  "Mahnoor Iftikhar is a Full-Stack Developer and AI Engineer from Lahore with internships at Arbisoft and Arch Technologies in web, LLMs and ML.";
+  "Mahnoor Iftikhar is a Full-Stack Developer and AI Engineer from Lahore with internships at Arbisoft and Arch Technologies in full-stack web and AI.";
 
 export const metadata: Metadata = {
   title: "About",
@@ -91,7 +91,7 @@ export default function AboutPage() {
               ))}
               <h2 className="pt-6 font-display text-3xl text-foreground">Writing</h2>
               <p>
-                She writes about AI agents, machine learning, and software delivery on Medium — {articles.length}{" "}
+                She writes about AI agents, LLMs, and software delivery on Medium — {articles.length}{" "}
                 articles so far, from engineering memory for production agents to how overfitting and data
                 leakage make models look better than they are.
               </p>

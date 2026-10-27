@@ -9,7 +9,7 @@ import { articleJsonLd, breadcrumbJsonLd, publishedArticles } from "@/lib/seo";
 import { absoluteUrl, baseOpenGraph, baseTwitter, defaultSocialImage } from "@/lib/site";
 
 const DESCRIPTION =
-  "Mahnoor Iftikhar on Medium: AI agents with long-term memory, MCP, overfitting and data leakage in ML, and CI/CD with GitHub Actions.";
+  "Mahnoor Iftikhar on Medium: AI agents with long-term memory, MCP, honest model evaluation, and CI/CD with GitHub Actions.";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -70,7 +70,7 @@ export default function ArticlesPage() {
                 </>
               }
             >
-              Practical write-ups on AI agents, machine learning, and shipping software — all published
+              Practical write-ups on AI agents, LLMs, and shipping software — all published
               on{" "}
               <a
                 href={profile.medium}

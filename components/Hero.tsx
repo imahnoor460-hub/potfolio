@@ -41,7 +41,7 @@ export default function Hero() {
 
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">
             <strong className="font-semibold text-foreground">{profile.title}</strong> working across LLM agents and
-            agentic workflows, Django · React · Next.js apps, and machine learning models that hold up on real data.
+            agentic workflows, RAG pipelines, and full-stack Django · React · Next.js apps that ship to the cloud.
           </p>
 
 
