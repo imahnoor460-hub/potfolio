@@ -1,110 +1,100 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
+// Absolute hrefs ("/#about") so the same bar works on sub-pages; on the home
+// page they resolve to in-page jumps.
 const links = [
-  { href: "/#about", label: "about" },
-  { href: "/#experience", label: "experience" },
-  { href: "/projects", label: "projects" },
-  { href: "/#skills", label: "skills" },
-  { href: "/#certifications", label: "certifications" },
-  { href: "/articles", label: "articles" },
-  { href: "/#contact", label: "contact" },
+  { href: "/#about", label: "About", id: "about" },
+  { href: "/#experience", label: "Experience", id: "experience" },
+  { href: "/projects", label: "Projects", id: "projects" },
+  { href: "/articles", label: "Articles", id: "articles" },
+  { href: "/#skills", label: "Skills", id: "skills" },
+  { href: "/#contact", label: "Contact", id: "contact" },
 ];
 
+/** A floating, rounded glass bar that stays centred at the top of the page. */
 export default function Nav() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [inView, setInView] = useState("");
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
-    if (pathname !== "/") return;
-
-    const anchorLinks = links.filter((link) => link.href.includes("#"));
-    const sections = anchorLinks
-      .map((link) => document.getElementById(link.href.split("#")[1]))
+    if (!isHome) return;
+    const targets = links
+      .map((l) => document.getElementById(l.id))
       .filter((el): el is HTMLElement => Boolean(el));
-
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(`/#${entry.target.id}`);
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+      (entries) => entries.forEach((e) => e.isIntersecting && setInView(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" },
     );
-
-    sections.forEach((el) => observer.observe(el));
+    targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [pathname]);
+  }, [isHome]);
 
-  const isActive = (href: string) =>
-    href.includes("#") ? active === href : pathname === href;
+  const active = isHome ? inView : pathname.split("/")[1] ?? "";
+
+  const linkClass = (id: string) =>
+    `rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+      active === id ? "bg-foreground text-background" : "text-muted hover:bg-surface-2 hover:text-foreground"
+    }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
-        <a href="/#top" className="group flex items-center gap-3" aria-label="Mahnoor Iftikhar, home">
-          <span className="font-serif flex h-10 w-10 items-center justify-center rounded-full border-[1.5px] border-foreground text-lg italic text-foreground transition-all duration-300 group-hover:rotate-[-12deg] group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
+    <header className="sticky top-0 z-50 px-4 pt-4">
+      <nav
+        aria-label="Main"
+        className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-full border border-border bg-surface/80 py-2 pl-2 pr-2 shadow-[var(--shadow)] backdrop-blur-xl"
+      >
+        <Link href="/" aria-label="Mahnoor Iftikhar — home" className="flex items-center gap-2.5 rounded-full pr-2">
+          <span className="bg-gradient-brand flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-bold text-white">
             MI
           </span>
-          <span className="font-serif hidden text-2xl leading-none text-foreground sm:block">
-            Mahnoor <em className="italic text-accent">Iftikhar</em>
-          </span>
-        </a>
+          <span className="hidden font-display text-[15px] font-semibold text-foreground sm:block">Mahnoor Iftikhar</span>
+        </Link>
 
-        <ul className="hidden items-center gap-0.5 lg:flex">
+        <ul className="hidden items-center gap-0.5 md:flex">
           {links.map((link) => (
             <li key={link.href}>
-              <a
-                href={link.href}
-                className={`relative px-3 py-1.5 text-[13px] font-medium tracking-wide transition-colors ${
-                  isActive(link.href) ? "text-accent" : "text-muted hover:text-foreground"
-                }`}
-              >
+              <Link href={link.href} className={linkClass(link.id)} aria-current={active === link.id ? "page" : undefined}>
                 {link.label}
-                {isActive(link.href) && (
-                  <span aria-hidden className="absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-accent" />
-                )}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-1">
           <ThemeToggle />
-
+          <Link
+            href="/#contact"
+            className="bg-gradient-brand hidden rounded-full px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 sm:inline-flex"
+          >
+            Let&apos;s talk
+          </Link>
           <button
             type="button"
-            aria-label="Toggle navigation menu"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-surface-2 lg:hidden"
+            aria-expanded={open}
+            aria-label="Toggle menu"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-surface-2 md:hidden"
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </nav>
 
       {open && (
-        <div className="border-t border-border bg-background px-6 py-6 lg:hidden">
-          <ul className="flex flex-col gap-1">
-            {links.map((link, i) => (
+        <div className="tile mx-auto mt-2 max-w-5xl p-2 md:hidden">
+          <ul className="grid grid-cols-2 gap-1">
+            {links.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className={`font-serif flex items-baseline gap-3 py-1.5 text-3xl transition-colors ${
-                    isActive(link.href) ? "italic text-accent" : "text-foreground hover:text-accent"
-                  }`}
-                >
-                  <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                <Link href={link.href} onClick={() => setOpen(false)} className={`block ${linkClass(link.id)}`}>
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

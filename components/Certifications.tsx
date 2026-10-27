@@ -1,55 +1,51 @@
-import { ArrowUpRight } from "lucide-react";
+import { Award, ArrowUpRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { certifications } from "@/data/cv";
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="scroll-mt-20 border-b border-border">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <section id="certifications" className="scroll-mt-28">
+      <div className="mx-auto max-w-6xl px-6 pb-20 md:pb-28">
         <Reveal>
-          <SectionHeading title="Credentials" index="06." kicker="Certifications" />
+          <SectionHeading eyebrow="Certifications" title="Courses & credentials" />
         </Reveal>
-        <ol className="mx-auto max-w-4xl">
+
+        <ol className="grid gap-5 md:grid-cols-3">
           {certifications.map((cert, i) => {
             const href = cert.fileUrl ?? cert.verifyUrl;
-            const content = (
-              <div className="flex items-baseline gap-4 py-5">
-                <span className="font-serif w-10 shrink-0 text-2xl italic text-accent">
-                  {String(i + 1).padStart(2, "0")}
+            const body = (
+              <div data-tilt className="tile tile-hover flex h-full flex-col p-6">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <Award size={20} />
                 </span>
-                <div className="min-w-0">
-                  <span className="font-serif text-2xl leading-tight text-foreground transition-colors group-hover:text-accent md:text-[1.75rem]">
-                    {cert.name}
-                  </span>
-                  {cert.issuer && (
-                    <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{cert.issuer}</p>
+                <h3 className="mt-5 flex-1 font-display text-lg font-semibold leading-snug text-foreground">{cert.name}</h3>
+                <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
+                  {cert.issuer && <span className="text-sm font-medium text-muted">{cert.issuer}</span>}
+                  {href && (
+                    <ArrowUpRight
+                      size={17}
+                      className="text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                    />
                   )}
                 </div>
-                <span aria-hidden className="mb-2 hidden flex-1 border-b-2 border-dotted border-foreground/25 md:block" />
-                {href && (
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center self-center rounded-full border border-foreground/30 text-foreground transition-all group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-surface">
-                    <ArrowUpRight size={17} />
-                  </span>
-                )}
               </div>
             );
-
             return (
-              <li key={cert.name} className="border-b border-foreground/15 first:border-t">
-                <Reveal delay={Math.min(i * 60, 300)}>
+              <li key={cert.name}>
+                <Reveal delay={i * 70} className="h-full">
                   {href ? (
                     <a
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group block"
+                      className="group block h-full"
                       aria-label={`View certificate: ${cert.name}`}
                     >
-                      {content}
+                      {body}
                     </a>
                   ) : (
-                    content
+                    body
                   )}
                 </Reveal>
               </li>

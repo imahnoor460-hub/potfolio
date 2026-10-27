@@ -1,40 +1,48 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/seo";
-import { projects } from "@/data/cv";
+import { articles, projects } from "@/data/cv";
+import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const lastModified = new Date();
+  const latestArticle = articles[0]?.datePublished;
+
+  const projectImages = projects.flatMap((p) => (p.image ? [absoluteUrl(p.image)] : []));
+  const articleImages = articles.flatMap((a) => (a.image ? [absoluteUrl(a.image)] : []));
 
   return [
     {
-      url: `${SITE_URL}/`,
-      lastModified: now,
+      url: absoluteUrl("/"),
+      lastModified,
       changeFrequency: "monthly",
       priority: 1,
+      images: [absoluteUrl("/opengraph-image"), ...projectImages],
     },
     {
-      url: `${SITE_URL}/about`,
-      lastModified: now,
+      url: absoluteUrl("/about"),
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/projects`,
-      lastModified: now,
+      url: absoluteUrl("/projects"),
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
+      images: projectImages,
     },
     ...projects.map((project) => ({
-      url: `${SITE_URL}/projects/${project.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
+      url: absoluteUrl(`/projects/${project.slug}`),
+      lastModified,
+      changeFrequency: "yearly" as const,
       priority: 0.6,
+      ...(project.image && { images: [absoluteUrl(project.image)] }),
     })),
     {
-      url: `${SITE_URL}/articles`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
+      url: absoluteUrl("/articles"),
+      lastModified: latestArticle ? new Date(latestArticle) : lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      images: articleImages,
     },
   ];
 }

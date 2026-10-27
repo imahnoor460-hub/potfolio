@@ -4,26 +4,27 @@ import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Projects from "@/components/Projects";
+import Articles from "@/components/Articles";
 import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
-import Articles from "@/components/Articles";
 import Footer from "@/components/Footer";
-import SectionDots from "@/components/SectionDots";
+import JsonLd from "@/components/JsonLd";
+import { profilePageJsonLd } from "@/lib/seo";
 
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
+      <JsonLd data={profilePageJsonLd()} />
       <Nav />
-      <SectionDots />
       <main className="flex-1">
         <Hero />
         <About />
         <Experience />
         <Education />
         <Projects />
+        <Articles />
         <Skills />
         <Certifications />
-        <Articles viewAllHref="/articles" />
       </main>
       <Footer />
     </div>

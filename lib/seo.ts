@@ -1,115 +1,118 @@
-import { profile, articles, type Project } from "@/data/cv";
+import { articles, certifications, education, profile, skillGroups, type ArticleEntry, type Project } from "@/data/cv";
+import { PERSON_ID, SITE_DESCRIPTION, SITE_NAME, SITE_URL, WEBSITE_ID, absoluteUrl } from "@/lib/site";
 
-/**
- * Canonical domain for the entire site. Every absolute URL, the sitemap,
- * robots.txt, and all JSON-LD @id/url fields must derive from this constant
- * so the domain never drifts out of sync across files.
- */
-export const SITE_URL = "https://mahnooriftikhar.online";
+// Structured data (schema.org JSON-LD). Every node that refers to Mahnoor uses
+// the Person @id defined once in the root layout, so search engines see one
+// consistent entity across all pages.
 
-export const PERSON_ID = `${SITE_URL}/#person`;
-export const WEBSITE_ID = `${SITE_URL}/#website`;
-
-/**
- * Core Person entity, reused by the sitewide JSON-LD (layout) and the
- * /about page's more detailed ProfilePage JSON-LD. Only fields backed by
- * real data in data/cv.ts are included.
- */
-export function personJsonLd() {
+/** Sitewide Person + WebSite graph, rendered in app/layout.tsx. */
+export function siteGraphJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": PERSON_ID,
-    name: profile.name,
-    url: `${SITE_URL}/`,
-    jobTitle: "Full-Stack Developer & AI Engineer",
-    description: profile.summary,
-    email: `mailto:${profile.email}`,
-    image: `${SITE_URL}/opengraph-image`,
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "University of Central Punjab",
-    },
-    worksFor: [
-      { "@type": "Organization", name: "Arbisoft" },
-      { "@type": "Organization", name: "Arch Technologies" },
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": PERSON_ID,
+        name: profile.name,
+        url: SITE_URL,
+        image: absoluteUrl("/opengraph-image"),
+        jobTitle: profile.title,
+        description: profile.summary,
+        email: `mailto:${profile.email}`,
+        address: { "@type": "PostalAddress", addressLocality: "Lahore", addressCountry: "PK" },
+        alumniOf: education.map((e) => ({ "@type": "EducationalOrganization", name: e.school })),
+        hasCredential: certifications.map((c) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: c.name,
+          credentialCategory: "certificate",
+          ...(c.issuer && { recognizedBy: { "@type": "Organization", name: c.issuer } }),
+          ...(c.verifyUrl && { url: c.verifyUrl }),
+        })),
+        knowsAbout: [
+          "Full-Stack Web Development",
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Large Language Models",
+          "Agentic Workflows",
+          ...skillGroups
+            .filter((g) => /web|ai|machine/i.test(g.category))
+            .flatMap((g) => g.skills),
+        ],
+        sameAs: [profile.github, profile.linkedin, profile.medium],
+      },
+      {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        url: SITE_URL,
+        name: SITE_NAME,
+        description: SITE_DESCRIPTION,
+        inLanguage: "en",
+        publisher: { "@id": PERSON_ID },
+      },
     ],
-    knowsAbout: [
-      "Full-Stack Web Development",
-      "Artificial Intelligence",
-      "Large Language Models",
-      "Agentic Workflows",
-      "React",
-      "Next.js",
-      "Django",
-    ],
-    sameAs: [profile.github, profile.linkedin, profile.medium],
-  } as const;
+  };
 }
 
-export function websiteJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": WEBSITE_ID,
-    url: `${SITE_URL}/`,
-    name: profile.name,
-    description: profile.summary,
-    publisher: { "@id": PERSON_ID },
-    author: { "@id": PERSON_ID },
-  } as const;
-}
-
+/** Marks the home page as a profile page about the Person. */
 export function profilePageJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "@id": `${SITE_URL}/about#profilepage`,
-    url: `${SITE_URL}/about`,
-    name: `About ${profile.name}`,
+    "@id": `${SITE_URL}/#profilepage`,
+    url: SITE_URL,
+    name: `${profile.name} — ${profile.title}`,
+    isPartOf: { "@id": WEBSITE_ID },
     mainEntity: { "@id": PERSON_ID },
-  } as const;
+    about: { "@id": PERSON_ID },
+  };
+}
+
+export function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: [{ name: "Home", path: "/" }, ...trail].map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.name,
+      item: absoluteUrl(crumb.path),
+    })),
+  };
 }
 
 export function projectJsonLd(project: Project) {
-  const url = `${SITE_URL}/projects/${project.slug}`;
+  const url = absoluteUrl(`/projects/${project.slug}`);
   return {
-    "@context": "https://schema.org",
     "@type": "CreativeWork",
     "@id": `${url}#project`,
     url,
     name: project.name,
     description: project.description,
+    keywords: project.tags.join(", "),
     creator: { "@id": PERSON_ID },
     author: { "@id": PERSON_ID },
-    keywords: project.tags.join(", "),
-    ...(project.image ? { image: `${SITE_URL}${project.image}` } : {}),
-    ...(project.liveUrl ? { mainEntityOfPage: project.liveUrl } : {}),
-  } as const;
+    ...(project.image && { image: absoluteUrl(project.image) }),
+    ...(project.liveUrl && { sameAs: project.liveUrl }),
+  };
 }
 
-/** Articles that are genuinely published (have a real, verified URL). */
-export const publishedArticles = articles.filter((a) => Boolean(a.url));
-
-export function articleJsonLd(article: (typeof articles)[number]) {
+export function articleJsonLd(article: ArticleEntry) {
   return {
-    "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: article.title,
     description: article.summary,
     url: article.url,
     mainEntityOfPage: article.url,
     inLanguage: "en",
-    ...(article.datePublished ? { datePublished: article.datePublished } : {}),
-    ...(article.keywords ? { keywords: article.keywords.join(", ") } : {}),
-    ...(article.image ? { image: `${SITE_URL}${article.image}` } : {}),
-    // Reference the sitewide Person node by @id only — it's already fully
-    // defined in app/layout.tsx on every page. Restating conflicting fields
-    // (e.g. a different `url`) here would create inconsistent data for the
-    // same @id.
+    ...(article.datePublished && { datePublished: article.datePublished }),
+    ...(article.keywords && { keywords: article.keywords.join(", ") }),
+    ...(article.image && { image: absoluteUrl(article.image) }),
+    publisher: { "@type": "Organization", name: "Medium" },
     author: { "@id": PERSON_ID },
-  } as const;
+  };
 }
+
+/** Articles that are genuinely published (have a real URL). */
+export const publishedArticles = articles.filter((a) => Boolean(a.url));
 
 export function jsonLdScriptProps(data: unknown) {
   return {

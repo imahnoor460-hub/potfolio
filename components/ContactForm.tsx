@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { Send } from "lucide-react";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { Loader2, Send } from "lucide-react";
+import { profile } from "@/data/cv";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xoeaeovo";
 
@@ -12,11 +14,10 @@ export default function ContactForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setStatus("submitting");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-
-    setStatus("submitting");
 
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -37,12 +38,12 @@ export default function ContactForm() {
   }
 
   const fieldClass =
-    "w-full border-0 border-b-[1.5px] border-foreground/25 bg-transparent px-0 py-2 text-base text-foreground placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-0";
-  const labelClass = "block font-mono text-[10px] uppercase tracking-[0.2em] text-muted";
+    "w-full rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-foreground placeholder:text-muted/70 transition-colors focus:border-accent focus:bg-surface focus:outline-none focus:ring-4 focus:ring-accent/15";
+  const labelClass = "mb-1.5 block text-sm font-semibold text-foreground";
 
   return (
     <form onSubmit={handleSubmit} className="text-left">
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
             Name
@@ -71,7 +72,20 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
+        <label htmlFor="subject" className={labelClass}>
+          Subject
+        </label>
+        <input
+          id="subject"
+          name="_subject"
+          type="text"
+          placeholder="What's this about?"
+          className={fieldClass}
+        />
+      </div>
+
+      <div className="mt-4">
         <label htmlFor="message" className={labelClass}>
           Message
         </label>
@@ -79,28 +93,47 @@ export default function ContactForm() {
           id="message"
           name="message"
           required
-          rows={4}
+          rows={5}
           placeholder="What would you like to say?"
           className={`${fieldClass} resize-none`}
         />
       </div>
 
-      <div className="mt-7 flex flex-wrap items-center gap-4">
+      <div className="mt-5 flex flex-wrap items-center gap-4">
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn-ink disabled:cursor-not-allowed disabled:opacity-60"
+          className="bg-gradient-brand flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Send size={15} />
-          {status === "submitting" ? "Sending…" : "Send message"}
+          {status === "submitting" ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Sending...
+            </>
+          ) : (
+            <>
+              <Send size={16} />
+              Send message
+            </>
+          )}
         </button>
-        {status === "success" && (
-          <p className="text-sm font-medium text-accent-2">Thanks! Your message has been sent.</p>
-        )}
-        {status === "error" && (
-          <p className="text-sm font-medium text-accent">Something went wrong. Please try again.</p>
-        )}
       </div>
+
+      {status === "success" && (
+        <p className="mt-3 text-sm font-medium text-green-600 dark:text-green-400">
+          Message sent — thanks for reaching out.
+        </p>
+      )}
+      {status === "error" && (
+        <p className="mt-3 text-sm font-medium text-red-500">
+          Something went wrong. Try emailing me directly instead.
+        </p>
+      )}
+      {status === "idle" && (
+        <p className="mt-3 text-xs text-muted">
+          Sends directly to {profile.email} — no email app required.
+        </p>
+      )}
     </form>
   );
 }

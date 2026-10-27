@@ -1,44 +1,124 @@
-import type { CSSProperties } from "react";
+import {
+  siBlender,
+  siCplusplus,
+  siDjango,
+  siFastapi,
+  siFirebase,
+  siMysql,
+  siNextdotjs,
+  siNumpy,
+  siOpenjdk,
+  siPandas,
+  siPython,
+  siPytorch,
+  siReact,
+  siScikitlearn,
+  siUnity,
+} from "simple-icons";
+import { Box, Brain, Cloud, Code2, Gamepad2, LayoutTemplate, Sparkles, Wrench } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { skillGroups } from "@/data/cv";
 
-const SWATCHES = ["bg-accent", "bg-accent-2", "bg-accent-3", "bg-foreground"];
-// Same colours as the swatches, for tinting each domain's skill chips.
-const SWATCH_VARS = ["var(--accent)", "var(--accent-2)", "var(--accent-3)", "var(--foreground)"];
+// Logo path per skill name, for the skills that have a brand mark.
+const LOGOS: Record<string, string> = {
+  Python: siPython.path,
+  "C++": siCplusplus.path,
+  Java: siOpenjdk.path,
+  SQL: siMysql.path,
+  Unity: siUnity.path,
+  Blender: siBlender.path,
+  Django: siDjango.path,
+  React: siReact.path,
+  FastAPI: siFastapi.path,
+  "Next.js": siNextdotjs.path,
+  NumPy: siNumpy.path,
+  Pandas: siPandas.path,
+  "Scikit-learn": siScikitlearn.path,
+  PyTorch: siPytorch.path,
+  "Firebase (Basic)": siFirebase.path,
+};
+
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  "AI & LLMs": Sparkles,
+  "Full-Stack Web": LayoutTemplate,
+  "Machine Learning & NLP": Brain,
+  "Programming Languages": Code2,
+  "Game Development": Gamepad2,
+  "3D Design & Tools": Box,
+  "Cloud (AWS)": Cloud,
+  "Other Technologies": Wrench,
+};
 
 export default function Skills() {
+  // Lead with the areas the work centres on.
+  const lead = ["AI & LLMs", "Full-Stack Web", "Machine Learning & NLP"];
+  const groups = [
+    ...lead.flatMap((c) => skillGroups.filter((g) => g.category === c)),
+    ...skillGroups.filter((g) => !lead.includes(g.category)),
+  ];
+  const total = groups.reduce((n, g) => n + g.skills.length, 0);
+
   return (
-    <section id="skills" className="scroll-mt-20 border-b border-border bg-surface-2/40">
+    <section id="skills" className="scroll-mt-28">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Reveal>
-          <SectionHeading title="The *palette*" index="05." kicker="Skills & tools" />
+          <SectionHeading
+            eyebrow="Skills"
+            title={
+              <>
+                My <span className="brush text-gradient">toolkit</span>
+              </>
+            }
+            intro={`${total} languages, frameworks, and tools across ${groups.length} areas — all in one view.`}
+          />
         </Reveal>
 
-        <div className="grid gap-x-12 md:grid-cols-2">
-          {skillGroups.map((group, i) => (
-            <Reveal key={group.category} delay={Math.min(i * 50, 250)}>
-              <div
-                className="group grid grid-cols-[auto_1fr] gap-5 border-t border-foreground/20 py-7"
-                style={{ "--chip": SWATCH_VARS[i % SWATCH_VARS.length] } as CSSProperties}
-              >
-                <span
-                  aria-hidden
-                  className={`mt-1.5 h-8 w-8 rounded-full ${SWATCHES[i % SWATCHES.length]} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-45 [border-radius:46%_54%_60%_40%/50%_42%_58%_50%]`}
-                />
-                <div>
-                  <h3 className="font-serif text-2xl leading-tight text-foreground">{group.category}</h3>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {group.skills.map((skill) => (
-                      <span key={skill} className="chip chip-tinted">
-                        {skill}
-                      </span>
-                    ))}
+        {/* Masonry-style columns so cards of different heights pack neatly. */}
+        <div className="columns-1 gap-5 md:columns-2 lg:columns-3">
+          {groups.map((group, i) => {
+            const Icon = CATEGORY_ICONS[group.category] ?? Sparkles;
+            return (
+              <Reveal key={group.category} delay={Math.min(i * 50, 250)} className="mb-5 break-inside-avoid">
+                <div data-tilt className="tile tile-hover p-6">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-gradient-brand flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-white">
+                      <Icon size={18} strokeWidth={1.8} />
+                    </span>
+                    <h3 className="font-display text-lg font-semibold text-foreground">{group.category}</h3>
+                    <span className="ml-auto rounded-full bg-surface-2 px-2 py-0.5 text-xs font-semibold text-muted">
+                      {group.skills.length}
+                    </span>
                   </div>
+                  <ul className="mt-5 flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="group/pill flex cursor-default items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-transparent hover:bg-linear-to-br hover:from-(--brand-1) hover:to-(--brand-2) hover:text-white hover:shadow-[0_8px_18px_-8px_var(--brand-1)]"
+                      >
+                        {LOGOS[skill] ? (
+                          <svg
+                            aria-hidden="true"
+                            viewBox="0 0 24 24"
+                            className="h-4 w-4 fill-current text-accent transition-colors group-hover/pill:text-white"
+                          >
+                            <path d={LOGOS[skill]} />
+                          </svg>
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className="h-1.5 w-1.5 rounded-full bg-accent transition-colors group-hover/pill:bg-white"
+                          />
+                        )}
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
