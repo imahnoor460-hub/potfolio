@@ -1,103 +1,125 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Nav from "@/components/Nav";
+import PageHeader from "@/components/PageHeader";
 import Footer from "@/components/Footer";
-import PageIntro from "@/components/PageIntro";
-import GithubIcon from "@/components/GithubIcon";
-import LinkedinIcon from "@/components/LinkedinIcon";
-import MediumIcon from "@/components/MediumIcon";
-import { profile, experiences, articles } from "@/data/cv";
-import { SITE_URL, profilePageJsonLd, jsonLdScriptProps } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import { articles, experiences, profile, projects } from "@/data/cv";
+import { breadcrumbJsonLd } from "@/lib/seo";
+import { PERSON_ID, absoluteUrl, baseOpenGraph, baseTwitter, defaultSocialImage } from "@/lib/site";
+
+const DESCRIPTION =
+  "Mahnoor Iftikhar is a Full-Stack Developer and AI Engineer from Lahore with internships at Arbisoft and Arch Technologies in web, LLMs and ML.";
 
 export const metadata: Metadata = {
-  title: { absolute: "About Mahnoor Iftikhar | Full-Stack Developer & AI Engineer" },
-  description:
-    "About Mahnoor Iftikhar — a Full-Stack Developer & AI Engineer from Lahore, Pakistan, working with React, Next.js, Django, LLMs, and agentic workflows.",
-  alternates: {
-    canonical: `${SITE_URL}/about`,
-  },
+  title: "About",
+  description: DESCRIPTION,
+  alternates: { canonical: "/about" },
   openGraph: {
+    ...baseOpenGraph,
     type: "profile",
-    url: `${SITE_URL}/about`,
-    title: "About Mahnoor Iftikhar | Full-Stack Developer & AI Engineer",
-    description:
-      "Full-Stack Developer & AI Engineer working with React, Next.js, Django, LLMs, and agentic workflows.",
+    url: "/about",
+    title: "About Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
+  },
+  twitter: {
+    ...baseTwitter,
+    title: "About Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
   },
 };
 
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    breadcrumbJsonLd([{ name: "About", path: "/about" }]),
+    {
+      "@type": "AboutPage",
+      "@id": `${absoluteUrl("/about")}#page`,
+      url: absoluteUrl("/about"),
+      name: `About ${profile.name}`,
+      description: DESCRIPTION,
+      mainEntity: { "@id": PERSON_ID },
+    },
+  ],
+};
+
 export default function AboutPage() {
-  const linkedArticles = articles.filter((a) => Boolean(a.url));
-  const socials = [
-    { href: profile.github, label: "GitHub", icon: <GithubIcon size={16} /> },
-    { href: profile.linkedin, label: "LinkedIn", icon: <LinkedinIcon size={16} /> },
-    { href: profile.medium, label: "Medium", icon: <MediumIcon size={16} /> },
-  ];
+  const live = projects.filter((p) => p.status === "Completed · Deployed").length;
 
   return (
     <div className="flex flex-1 flex-col">
-      <script {...jsonLdScriptProps(profilePageJsonLd())} />
+      <JsonLd data={aboutJsonLd} />
       <Nav />
       <main className="flex-1">
-        <section className="border-b border-border">
+        <section>
           <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-            <PageIntro kicker={profile.title} title="About" italic={profile.name} />
+            <PageHeader
+              crumbs={[{ name: "About" }]}
+              kicker={profile.title}
+              title={
+                <>
+                  About Mahnoor <span className="brush text-gradient">Iftikhar</span>
+                </>
+              }
+            />
 
-            <div className="mt-12 space-y-6 text-lg leading-relaxed text-foreground/80">
-              <p className="dropcap font-serif text-[1.6rem] leading-snug text-foreground">{profile.summary}</p>
+            <div className="space-y-6 text-lg leading-relaxed text-foreground/80">
+              <p className="font-display text-[1.75rem] leading-snug text-foreground">{profile.summary}</p>
               <p>
                 Her work spans{" "}
-                <Link href="/projects" className="highlight font-medium text-foreground">
-                  full-stack web projects
-                </Link>{" "}
-                built with Django, React, FastAPI, and Next.js, alongside AI
-                engineering work that integrates large language models into
-                production-style, agentic workflows.
+                <Link
+                  href="/projects"
+                  className="font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
+                >
+                  {projects.length} projects
+                </Link>
+                , {live} of them live in production, built with Django, React, FastAPI, and Next.js,
+                alongside AI engineering that brings large language models into agentic workflows.
               </p>
+              <h2 className="pt-6 font-display text-3xl text-foreground">Experience</h2>
               {experiences.map((exp) => (
                 <p key={exp.company}>
-                  As {exp.role} at <strong className="font-semibold text-accent">{exp.company}</strong>
-                  {exp.period ? ` (${exp.period})` : ""}, she {exp.description.charAt(0).toLowerCase() + exp.description.slice(1)}
+                  As <strong className="font-semibold text-foreground">{exp.role}</strong> at{" "}
+                  <strong className="font-semibold text-accent">{exp.company}</strong>
+                  {exp.period ? ` (${exp.period})` : ""}, she{" "}
+                  {exp.description.charAt(0).toLowerCase() + exp.description.slice(1)}
                 </p>
               ))}
+              <h2 className="pt-6 font-display text-3xl text-foreground">Writing</h2>
               <p>
-                Outside of software and AI, she also has a background in game
-                development and 3D design, having built projects in Unity and
-                Blender.
+                She writes about AI agents, machine learning, and software delivery on Medium — {articles.length}{" "}
+                articles so far, from engineering memory for production agents to how overfitting and data
+                leakage make models look better than they are.
+              </p>
+              <h2 className="pt-6 font-display text-3xl text-foreground">Beyond the web</h2>
+              <p>
+                Outside of software and AI she has a background in game development and 3D design, building
+                games in Unity and environments in Blender.
               </p>
             </div>
 
-            <div className="paper-card mt-14 p-7">
-              <h2 className="font-serif text-3xl text-foreground">
-                Let&apos;s <em className="italic text-accent">connect</em>
-              </h2>
-              <div className="mt-5 flex flex-wrap gap-3">
-                {socials.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="btn-line">
-                    {s.icon}
-                    {s.label}
-                    <ExternalLink size={13} />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/projects" className="btn-ink">
-                View projects
-                <ArrowUpRight size={16} />
+            <div className="mt-14 grid gap-4 sm:grid-cols-2">
+              <Link href="/projects" className="group">
+                <div data-tilt className="tile tile-hover flex items-center justify-between rounded-xl p-5">
+                  <span className="font-display text-2xl text-foreground">See the projects</span>
+                  <ArrowRight size={18} className="text-accent transition-transform group-hover:translate-x-1" />
+                </div>
               </Link>
-              {linkedArticles.length > 0 && (
-                <Link href="/articles" className="btn-line">
-                  Read articles
-                  <ArrowUpRight size={16} />
-                </Link>
-              )}
+              <Link href="/articles" className="group">
+                <div data-tilt className="tile tile-hover flex items-center justify-between rounded-xl p-5">
+                  <span className="font-display text-2xl text-foreground">Read the articles</span>
+                  <ArrowRight size={18} className="text-accent transition-transform group-hover:translate-x-1" />
+                </div>
+              </Link>
             </div>
           </div>
         </section>
       </main>
-      <Footer showIndex={false} />
+      <Footer />
     </div>
   );
 }

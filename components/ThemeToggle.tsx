@@ -1,24 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 
-export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+function subscribe(callback: () => void) {
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => observer.disconnect();
+}
 
-  useEffect(() => {
-    setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-  }, []);
+export default function ThemeToggle() {
+  const isDark = useSyncExternalStore(
+    subscribe,
+    () => document.documentElement.getAttribute("data-theme") === "dark",
+    () => false,
+  );
 
   function toggle() {
-    const next = !isDark;
-    setIsDark(next);
-    if (next) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
+    if (isDark) {
       document.documentElement.removeAttribute("data-theme");
       localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
     }
   }
 
@@ -27,9 +31,9 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label="Toggle color theme"
-      className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-all hover:rotate-12 hover:bg-surface-2 hover:text-accent"
+      className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
     >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+      {isDark ? <Sun size={17} /> : <Moon size={17} />}
     </button>
   );
 }

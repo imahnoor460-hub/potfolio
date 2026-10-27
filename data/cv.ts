@@ -69,8 +69,12 @@ export type Project = {
   status: ProjectStatus;
   featured?: boolean;
   homepage?: boolean;
+  /** "selected" = web & AI work; "earlier" = games, 3D and coursework. */
+  group?: "selected" | "earlier";
   liveUrl?: string;
   image?: string;
+  /** Screenshot's real width/height, so it is never cropped. */
+  imageAspect?: string;
   description: string;
   tags: string[];
   links: ProjectLink[];
@@ -84,6 +88,7 @@ export const projects: Project[] = [
     homepage: true,
     liveUrl: "https://mahnoor-savora-one.vercel.app/",
     image: "/projects/savora.jpg",
+    imageAspect: "1897/902",
     description:
       "A restaurant web system built with a Django backend and React frontend, letting users browse menus and make table bookings.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
@@ -96,6 +101,7 @@ export const projects: Project[] = [
     homepage: true,
     liveUrl: "https://olx-frontend-eight.vercel.app/",
     image: "/projects/olx-clone.png",
+    imageAspect: "1901/873",
     description:
       "A full-stack marketplace application with a Django backend and React frontend. Implements authentication, product listings, search, and CRUD operations backed by a relational database.",
     tags: ["Django", "React", "Full Stack", "REST APIs"],
@@ -103,6 +109,7 @@ export const projects: Project[] = [
   },
   {
     slug: "unity-game-development",
+    group: "earlier",
     name: "Unity Game Development",
     status: "Completed",
     description:
@@ -112,6 +119,7 @@ export const projects: Project[] = [
   },
   {
     slug: "3d-environment-design",
+    group: "earlier",
     name: "3D Environment Design",
     status: "Completed",
     description:
@@ -121,6 +129,7 @@ export const projects: Project[] = [
   },
   {
     slug: "library-management-system",
+    group: "earlier",
     name: "Library Management System",
     status: "Completed",
     description:
@@ -136,6 +145,7 @@ export const projects: Project[] = [
     homepage: true,
     liveUrl: "https://competitive-intelligence-monitor.vercel.app/",
     image: "/projects/dashboard.png",
+    imageAspect: "1917/868",
     description:
       "A dashboard that tracks competitors' websites, pricing, and updates, surfacing the findings in a live, easy-to-read view.",
     tags: ["Next.js", "Dashboard", "Data Visualization", "Web Scraping"],
@@ -150,8 +160,9 @@ export const projects: Project[] = [
     slug: "portfolio-ai-assistant",
     name: "Portfolio AI Chat Assistant",
     status: "Completed · Deployed",
-    homepage: true,
+    homepage: false,
     image: "/projects/portfolio-ai-assistant.png",
+    imageAspect: "482/560",
     description:
       "The chat widget on this site (bottom-right) — a RAG-grounded assistant that answers questions using this portfolio's real content, with voice input/output and a live GitHub tool so it can answer questions a static bio can't, like a repo's star count or what its README says.",
     tags: ["Next.js", "RAG", "Embeddings", "Tool Calling", "Web Speech API"],
@@ -224,26 +235,43 @@ export const certifications: Certification[] = [
 export type ArticleEntry = {
   title: string;
   summary: string;
-  date?: string;
-  /** ISO publish date, used only in Article JSON-LD. */
+  /** ISO publish date (from Medium). */
   datePublished?: string;
   keywords?: string[];
   url?: string;
   image?: string;
 };
 
+// Newest first. Synced from medium.com/@mahnoor-iftikhar.
 export const articles: ArticleEntry[] = [
+  {
+    title: "When Machine Learning Models Lie: Overfitting, Data Leakage, and False Confidence",
+    summary:
+      "Three Scikit-learn decision-tree experiments that show how overfitting and data leakage fake a model's accuracy — a tree that scores 100% in training but 78% on test data, and a leaked feature that inflates test accuracy to 95% — and how to evaluate models honestly.",
+    image: "https://cdn-images-1.medium.com/max/1024/1*fQWrncn2jbY1X9ZIw9fNlg.jpeg",
+    datePublished: "2026-10-25",
+    keywords: [
+      "machine learning",
+      "overfitting",
+      "data leakage",
+      "model evaluation",
+      "scikit-learn",
+      "decision trees",
+      "Python",
+      "data science",
+    ],
+    url: "https://medium.com/@mahnoor-iftikhar/when-machine-learning-models-lie-overfitting-data-leakage-and-false-confidence-16cfd3d775bf",
+  },
   {
     title: "How to Build a Personal AI Agent That Actually Remembers You",
     summary:
-      "A step-by-step guide to building a personal AI agent with long-term memory that persists across sessions — covering a five-layer agent architecture, memory design, tool options like MCP, skills, and scripts, security rules, and whether to build your own AI assistant or buy one.",
+      "A step-by-step guide to building a personal AI agent with long-term memory that persists across sessions — covering a five-layer agent architecture, memory design, tool options like MCP, skills, and scripts, security rules, and a four-week starter roadmap.",
     image: "/articles/personal-ai-agent.jpg",
     datePublished: "2026-10-22",
     keywords: [
       "personal AI agent",
       "AI agent memory",
       "long-term memory",
-      "AI assistant",
       "Model Context Protocol",
       "MCP",
       "agent architecture",
@@ -252,28 +280,47 @@ export const articles: ArticleEntry[] = [
     url: "https://medium.com/@mahnoor-iftikhar/how-to-build-a-personal-ai-agent-that-actually-remembers-you-a9c277adbe84",
   },
   {
-    title:
-      "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
-    summary: "A write-up on building agentic workflows with LLMs.",
-    image: "/articles/agentic-workflows.jpg",
+    title: "Beyond the Context Window: Engineering Memory for Production AI Agents",
+    summary:
+      "Why agent memory is a state-management problem, not a prompting trick: a memory taxonomy, Redis and PostgreSQL persistence, context retrieval and compaction, human approval checkpoints, and checkpoint-based failure recovery for production AI agents.",
+    image: "/articles/agent-memory.jpg",
     datePublished: "2026-09-27",
-    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
+    keywords: [
+      "AI agent memory",
+      "production AI agents",
+      "state management",
+      "Redis",
+      "PostgreSQL",
+      "context window",
+      "LLM",
+    ],
+    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-context-window-engineering-memory-for-production-ai-agents-8199da181321",
   },
   {
     title:
-      "I Stopped SSH-ing Into My Server to Deploy: How to Build a Bulletproof Node.js CI/CD Pipeline with GitHub Actions",
+      "I Stopped SSH-ing Into My Server to Deploy: Building a Node.js CI/CD Pipeline with GitHub Actions",
     summary:
-      "A practical guide to automating deployments with GitHub Actions so you never SSH into a server again.",
+      "A practical GitHub Actions CI/CD pipeline for Node.js that installs, tests, builds, and deploys over SSH with a PM2 restart — plus secret handling, failing fast, zero-downtime restarts, and keeping actions up to date.",
     image: "/articles/fullstack-deploy.jpg",
     datePublished: "2026-09-27",
+    keywords: ["CI/CD", "GitHub Actions", "Node.js", "DevOps", "deployment", "PM2"],
     url: "https://medium.com/@mahnoor-iftikhar/i-stopped-ssh-ing-into-my-server-to-deploy-building-a-node-js-ci-cd-pipeline-with-github-actions-1043a188169a",
   },
   {
-    title: "Beyond the Context Window: Engineering Memory for Production AI Agents",
+    title:
+      "Beyond the Chatbot: Why the Model Context Protocol (MCP) is the USB-C Moment for AI Agents",
     summary:
-      "A look at how to give AI agents durable, structured memory beyond a single context window.",
-    image: "/articles/agent-memory.jpg",
+      "How the Model Context Protocol replaces N×M custom integrations between AI clients and data sources with one open client-server standard — and what that means for portability, security boundaries, and multi-server agentic systems.",
+    image: "/articles/agentic-workflows.jpg",
     datePublished: "2026-09-27",
-    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-context-window-engineering-memory-for-production-ai-agents-8199da181321",
+    keywords: [
+      "Model Context Protocol",
+      "MCP",
+      "AI agents",
+      "agentic AI",
+      "LLM integrations",
+      "AI tooling",
+    ],
+    url: "https://medium.com/@mahnoor-iftikhar/beyond-the-chatbot-why-the-model-context-protocol-mcp-is-the-usb-c-moment-for-ai-agents-a419ec6cd658",
   },
 ];

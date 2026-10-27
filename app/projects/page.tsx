@@ -1,50 +1,83 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
+import PageHeader from "@/components/PageHeader";
+import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
-import PageIntro from "@/components/PageIntro";
-import ProjectCard from "@/components/ProjectCard";
-import FeaturedProject from "@/components/FeaturedProject";
+import JsonLd from "@/components/JsonLd";
 import { projects } from "@/data/cv";
-import { SITE_URL } from "@/lib/seo";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/seo";
+import { absoluteUrl, baseOpenGraph, baseTwitter, defaultSocialImage } from "@/lib/site";
+
+const DESCRIPTION =
+  "Projects by Mahnoor Iftikhar: a competitor-tracking dashboard, Savora restaurant bookings, an OLX clone, a RAG assistant, Unity games and 3D art.";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description:
-    "Full-stack, AI, and game development projects built by Mahnoor Iftikhar, including Savora, an OLX clone, and a Competitive Intelligence Monitor dashboard.",
-  alternates: { canonical: `${SITE_URL}/projects` },
+  description: DESCRIPTION,
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    ...baseOpenGraph,
+    url: "/projects",
+    title: "Projects | Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
+  },
+  twitter: {
+    ...baseTwitter,
+    title: "Projects | Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
+  },
+};
+
+const projectsJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    breadcrumbJsonLd([{ name: "Projects", path: "/projects" }]),
+    {
+      "@type": "CollectionPage",
+      "@id": `${absoluteUrl("/projects")}#page`,
+      url: absoluteUrl("/projects"),
+      name: "Projects by Mahnoor Iftikhar",
+      description: DESCRIPTION,
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: projects.length,
+        itemListElement: projects.map((project, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: projectJsonLd(project),
+        })),
+      },
+    },
+  ],
 };
 
 export default function ProjectsPage() {
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
-
   return (
     <div className="flex flex-1 flex-col">
+      <JsonLd data={projectsJsonLd} />
       <Nav />
       <main className="flex-1">
-        <section className="border-b border-border">
+        <section>
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-            <PageIntro kicker="The collection" title="All" italic="projects">
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/70">
-                Full-stack products, AI tools, games, and 3D worlds — everything I&apos;ve built, in one place.
-              </p>
-            </PageIntro>
-
-            <div className="mt-20 space-y-16">
-              {featured.map((project) => (
-                <FeaturedProject key={project.slug} project={project} />
-              ))}
-            </div>
-
-            <div className="mt-20 grid gap-10 md:grid-cols-2">
-              {rest.map((project, i) => (
-                <ProjectCard key={project.slug} project={project} index={i} />
-              ))}
-            </div>
+            <PageHeader
+              crumbs={[{ name: "Projects" }]}
+              kicker="Everything I've built"
+              title={
+                <>
+                  All <span className="brush text-gradient">projects</span>
+                </>
+              }
+            >
+              The full list: full-stack and AI products deployed for real users, plus the games, 3D
+              environments, and coursework where I practised specific skills.
+            </PageHeader>
+            <ProjectList projects={projects} grouped />
           </div>
         </section>
       </main>
-      <Footer showIndex={false} />
+      <Footer />
     </div>
   );
 }

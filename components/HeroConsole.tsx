@@ -3,7 +3,7 @@ import { profile } from "@/data/cv";
 /** Laptop mockup with a zsh session, restored from the original hero. */
 export default function HeroConsole() {
   return (
-    <div className="w-full [perspective:1200px]">
+    <div className="terminal-dark w-full [perspective:1200px]">
       <div className="mx-auto max-w-md transition-transform duration-500 [transform:rotateX(4deg)] hover:[transform:rotateX(0deg)]">
         {/* Screen / lid */}
         <div className="rounded-t-2xl border-[10px] border-b-0 border-[#1c1c1e] bg-[#1c1c1e] pb-1 shadow-2xl">

@@ -1,130 +1,136 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Nav from "@/components/Nav";
+import PageHeader from "@/components/PageHeader";
 import Footer from "@/components/Footer";
-import PageIntro from "@/components/PageIntro";
+import JsonLd from "@/components/JsonLd";
+import ProjectCard, { ProjectLinks, ProjectShot, ProjectStatus, ProjectTags } from "@/components/ProjectCard";
 import { profile, projects } from "@/data/cv";
-import { SITE_URL, projectJsonLd, jsonLdScriptProps } from "@/lib/seo";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/seo";
+import { baseOpenGraph, baseTwitter, defaultSocialImage, metaDescription } from "@/lib/site";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
 
-  const title = `${project.name} | Project by Mahnoor Iftikhar`;
-  const url = `${SITE_URL}/projects/${project.slug}`;
+  const title = `${project.name} — Project by ${profile.name}`;
+  const path = `/projects/${project.slug}`;
+  const description = metaDescription(project.description);
+  const images = project.image
+    ? [{ url: project.image, alt: `${project.name} screenshot` }]
+    : [defaultSocialImage];
 
   return {
     title: { absolute: title },
-    description: project.description,
-    alternates: { canonical: url },
-    openGraph: {
-      type: "article",
-      url,
-      title,
-      description: project.description,
-      ...(project.image ? { images: [{ url: project.image }] } : {}),
-    },
+    description,
+    keywords: [...project.tags, profile.name],
+    alternates: { canonical: path },
+    openGraph: { ...baseOpenGraph, type: "article", url: path, title, description, images },
+    twitter: { ...baseTwitter, title, description, images },
   };
 }
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  const index = projects.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
+  const project = projects[index];
+  const others = projects.filter((p) => p.slug !== slug && p.group === project.group).slice(0, 2);
 
-  const isDeployed = project.status === "Completed · Deployed";
+  const pageJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbJsonLd([
+        { name: "Projects", path: "/projects" },
+        { name: project.name, path: `/projects/${project.slug}` },
+      ]),
+      projectJsonLd(project),
+    ],
+  };
 
   return (
     <div className="flex flex-1 flex-col">
-      <script {...jsonLdScriptProps(projectJsonLd(project))} />
+      <JsonLd data={pageJsonLd} />
       <Nav />
       <main className="flex-1">
-        <section className="border-b border-border">
-          <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-            <PageIntro backHref="/projects" backLabel="Back to all projects" kicker="Project" title={project.name}>
-              <div className="mt-6 flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                <span className={`flex items-center gap-1.5 ${isDeployed ? "text-accent-2" : ""}`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${isDeployed ? "bg-accent-2" : "bg-muted"}`} />
-                  {project.status}
-                </span>
-                <span aria-hidden className="h-px w-6 bg-border" />
-                <span>
-                  Built by{" "}
-                  <Link href="/about" className="text-accent hover:underline">
-                    {profile.name}
-                  </Link>
-                </span>
-              </div>
-            </PageIntro>
+        <article>
+          <div className="mx-auto max-w-5xl px-6 py-14 md:py-20">
+            <PageHeader
+              crumbs={[{ name: "Projects", href: "/projects" }, { name: project.name }]}
+              kicker={`Project ${index + 1} of ${projects.length}`}
+              title={project.name}
+            >
+              {project.description}
+            </PageHeader>
 
-            {project.image && (
-              <div className="paper-card mt-14 p-4">
-                <div className="frame">
-                  <div className="frame-inner aspect-video">
-                    <Image
-                      src={project.image}
-                      alt={`${project.name} screenshot`}
-                      fill
-                      className="object-contain"
-                      priority
-                    />
+            <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
+              <div className="tile p-3 sm:p-4">
+                <ProjectShot project={project} sizes="(min-width: 1024px) 40rem, 100vw" priority />
+              </div>
+
+              <aside className="tile flex flex-col gap-7 p-6">
+                <div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">Status</h2>
+                  <div className="mt-3">
+                    <ProjectStatus project={project} />
                   </div>
                 </div>
-              </div>
-            )}
-
-            <div className="mt-14 grid gap-10 md:grid-cols-[1.6fr_1fr]">
-              <p className="font-serif text-[1.6rem] leading-snug text-foreground">{project.description}</p>
-              <div>
-                <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Technology stack</h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="chip">
-                      {tag}
-                    </span>
-                  ))}
+                <div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">Built with</h2>
+                  <div className="mt-3">
+                    <ProjectTags tags={project.tags} />
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="mt-12 flex flex-wrap items-center gap-4 border-t border-dashed border-border pt-8">
-              {project.liveUrl && (
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink">
-                  Visit live site
-                  <ArrowUpRight size={15} />
-                </a>
-              )}
-              {project.links.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="btn-line">
-                  {link.label}
-                  <ExternalLink size={14} />
-                </a>
-              ))}
-              <Link href="/projects" className="btn-line">
-                View all projects
-                <ArrowUpRight size={16} />
-              </Link>
+                <div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">Built by</h2>
+                  <p className="mt-3">
+                    <Link href="/about" className="link-underline font-semibold text-foreground">
+                      {profile.name}
+                    </Link>
+                  </p>
+                </div>
+                {(project.liveUrl || project.links.length > 0) && (
+                  <div className="mt-auto border-t border-border pt-6">
+                    <ProjectLinks project={project} />
+                  </div>
+                )}
+              </aside>
             </div>
           </div>
-        </section>
+        </article>
+
+        {others.length > 0 && (
+          <section aria-labelledby="more-projects" className="border-t border-border bg-surface-2/60">
+            <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                <h2 id="more-projects" className="font-display text-3xl font-bold text-foreground">
+                  More <span className="brush text-gradient">projects</span>
+                </h2>
+                <Link
+                  href="/projects"
+                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:text-accent"
+                >
+                  All projects
+                  <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+              <div className="grid gap-5 md:grid-cols-2">
+                {others.map((p) => (
+                  <ProjectCard key={p.slug} project={p} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
-      <Footer showIndex={false} />
+      <Footer />
     </div>
   );
 }

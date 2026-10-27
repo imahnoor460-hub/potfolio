@@ -1,70 +1,63 @@
-import Link from "next/link";
-import { ArrowUpRight, Briefcase, FolderGit2, PenLine } from "lucide-react";
+import { Brain, Code2, Gamepad2, Workflow } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import TiltCard from "@/components/TiltCard";
-import { profile, experiences, projects, articles } from "@/data/cv";
+import { profile } from "@/data/cv";
+
+const STRENGTHS = [
+  {
+    icon: Code2,
+    title: "Full-stack web",
+    text: "Django and FastAPI backends with React and Next.js frontends, REST APIs, auth, and relational data.",
+  },
+  {
+    icon: Workflow,
+    title: "LLMs & agents",
+    text: "Integrating LLMs into products: agentic workflows, MCP tools, embeddings, and RAG pipelines.",
+  },
+  {
+    icon: Brain,
+    title: "Machine learning",
+    text: "Training and evaluating models with Scikit-learn and PyTorch, and NLP with transformers.",
+  },
+  {
+    icon: Gamepad2,
+    title: "Games & 3D",
+    text: "Unity game mechanics and physics, plus realistic and stylized environments built in Blender.",
+  },
+];
 
 export default function About() {
-  // First sentence as the lead; the rest reads as body text.
-  const [lead, ...rest] = profile.summary.split(/(?<=\.)\s+/);
-
-  const stats = [
-    { value: experiences.length, label: "Internships", note: "AI and ML roles", Icon: Briefcase },
-    { value: projects.length, label: "Projects built", note: "Web, AI and games", Icon: FolderGit2 },
-    {
-      value: articles.filter((a) => a.url).length,
-      label: "Articles published",
-      note: "On agents and LLMs",
-      Icon: PenLine,
-    },
-  ];
-
   return (
-    <section id="about" className="scroll-mt-20 border-b border-border">
+    <section id="about" className="scroll-mt-28">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <Reveal>
-          <SectionHeading title="A little *about* me" index="01." kicker="The person" />
-        </Reveal>
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] md:items-start">
-          <Reveal delay={80}>
-            <p className="text-2xl leading-[1.4] tracking-[-0.01em] text-foreground md:text-[1.75rem]">
-              {lead}
-            </p>
-            {rest.length > 0 && (
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/70">
-                {rest.join(" ")}
-              </p>
-            )}
-            <Link href="/about" className="btn-line mt-8">
-              Read the full story
-              <ArrowUpRight size={15} />
-            </Link>
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+          <Reveal>
+            <SectionHeading
+              eyebrow="About me"
+              title={
+                <>
+                  Building software that is useful and <span className="brush text-gradient">well made</span>
+                </>
+              }
+            />
+            <p className="-mt-4 text-lg leading-relaxed text-muted">{profile.summary}</p>
           </Reveal>
 
-          <Reveal delay={160}>
-            <TiltCard>
-              <dl className="depth-1 divide-y divide-border/60 px-2 py-3">
-                {stats.map(({ value, label, note, Icon }) => (
-                  <div
-                    key={label}
-                    className="group flex items-center gap-4 rounded-2xl px-4 py-4 transition-colors duration-300 hover:bg-accent/[0.06]"
-                  >
-                    <span className="depth-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent shadow-[0_8px_18px_-10px_var(--accent)] transition-colors duration-300 group-hover:bg-accent group-hover:text-surface">
-                      <Icon size={17} strokeWidth={1.75} />
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {STRENGTHS.map(({ icon: Icon, title, text }, i) => (
+              <li key={title}>
+                <Reveal delay={i * 70} className="h-full">
+                  <div data-tilt className="tile tile-hover h-full p-6">
+                    <span className="bg-gradient-brand flex h-11 w-11 items-center justify-center rounded-xl text-white">
+                      <Icon size={20} strokeWidth={1.8} />
                     </span>
-                    <dt className="min-w-0 flex-1">
-                      <span className="block text-sm font-medium text-foreground">{label}</span>
-                      <span className="block text-xs text-muted">{note}</span>
-                    </dt>
-                    <dd className="num-accent depth-3 text-5xl leading-none text-accent">
-                      {String(value).padStart(2, "0")}
-                    </dd>
+                    <h3 className="mt-5 font-display text-lg font-semibold text-foreground">{title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>
                   </div>
-                ))}
-              </dl>
-            </TiltCard>
-          </Reveal>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

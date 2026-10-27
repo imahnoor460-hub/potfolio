@@ -1,32 +1,92 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
+import PageHeader from "@/components/PageHeader";
+import ArticleList from "@/components/ArticleList";
 import Footer from "@/components/Footer";
-import Articles from "@/components/Articles";
-import PageIntro from "@/components/PageIntro";
-import { SITE_URL } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import { articles, profile } from "@/data/cv";
+import { articleJsonLd, breadcrumbJsonLd, publishedArticles } from "@/lib/seo";
+import { absoluteUrl, baseOpenGraph, baseTwitter, defaultSocialImage } from "@/lib/site";
+
+const DESCRIPTION =
+  "Mahnoor Iftikhar on Medium: AI agents with long-term memory, MCP, overfitting and data leakage in ML, and CI/CD with GitHub Actions.";
 
 export const metadata: Metadata = {
   title: "Articles",
-  description:
-    "Articles by Mahnoor Iftikhar on building AI agents with long-term memory, the Model Context Protocol (MCP), LLM infrastructure, and CI/CD for full-stack deployment, published on Medium.",
-  alternates: { canonical: `${SITE_URL}/articles` },
+  description: DESCRIPTION,
+  alternates: { canonical: "/articles" },
+  openGraph: {
+    ...baseOpenGraph,
+    url: "/articles",
+    title: "Articles | Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
+  },
+  twitter: {
+    ...baseTwitter,
+    title: "Articles | Mahnoor Iftikhar",
+    description: DESCRIPTION,
+    images: [defaultSocialImage],
+  },
+};
+
+const articlesJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    breadcrumbJsonLd([{ name: "Articles", path: "/articles" }]),
+    {
+      "@type": "CollectionPage",
+      "@id": `${absoluteUrl("/articles")}#page`,
+      url: absoluteUrl("/articles"),
+      name: "Articles by Mahnoor Iftikhar",
+      description: DESCRIPTION,
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: publishedArticles.length,
+        itemListElement: publishedArticles.map((article, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: articleJsonLd(article),
+        })),
+      },
+    },
+  ],
 };
 
 export default function ArticlesPage() {
   return (
     <div className="flex flex-1 flex-col">
+      <JsonLd data={articlesJsonLd} />
       <Nav />
       <main className="flex-1">
-        <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-20">
-          <PageIntro kicker="Writing" title="The" italic="journal">
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/70">
-              Notes on AI agents, LLM infrastructure, and shipping full-stack software.
-            </p>
-          </PageIntro>
-        </div>
-        <Articles showIndex={false} />
+        <section>
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <PageHeader
+              crumbs={[{ name: "Articles" }]}
+              kicker="Writing"
+              title={
+                <>
+                  All <span className="brush text-gradient">articles</span>
+                </>
+              }
+            >
+              Practical write-ups on AI agents, machine learning, and shipping software — all published
+              on{" "}
+              <a
+                href={profile.medium}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
+              >
+                Medium
+              </a>
+              .
+            </PageHeader>
+            <ArticleList articles={articles} />
+          </div>
+        </section>
       </main>
-      <Footer showIndex={false} />
+      <Footer />
     </div>
   );
 }

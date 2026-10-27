@@ -1,98 +1,80 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { Download, FileText, X } from "lucide-react";
+import { ArrowUpRight, CalendarDays } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { experiences } from "@/data/cv";
 
-export default function Experience() {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+/** True while a "Start – End" period hasn't ended yet. */
+function isOngoing(period?: string) {
+  const end = period?.split("–")[1]?.trim();
+  const endTime = end ? Date.parse(end) : NaN;
+  return Number.isNaN(endTime) ? false : endTime >= Date.now();
+}
 
-  useEffect(() => {
-    if (!previewUrl) return;
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setPreviewUrl(null);
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [previewUrl]);
+export default function Experience() {
+  // Newest first.
+  const roles = [...experiences].reverse();
 
   return (
-    <section id="experience" className="scroll-mt-20 border-b border-border bg-surface-2/40">
+    <section id="experience" className="scroll-mt-28 border-y border-border bg-surface-2/60">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Reveal>
-          <SectionHeading title="Where I've *worked*" index="02." kicker="Experience" />
+          <SectionHeading
+            eyebrow="Experience"
+            title={
+              <>
+                Where I&apos;ve <span className="brush text-gradient">worked</span>
+              </>
+            }
+            intro="Internships where I shipped real work: full-stack apps, LLM integrations, and machine learning."
+          />
         </Reveal>
 
-        <ol className="relative">
-          {experiences.map((exp, i) => (
-            <li key={exp.company}>
-              <Reveal delay={80 + i * 80}>
-                <article className="group -mx-4 grid gap-4 border-t-[1.5px] border-foreground px-4 py-10 transition-colors duration-300 hover:border-accent hover:bg-accent/[0.06] md:-mx-6 md:grid-cols-[120px_1fr_1.4fr] md:gap-10 md:px-6">
-                  <span className="font-serif text-7xl leading-none text-accent/70 transition-colors duration-300 group-hover:text-accent">
-                    {String(i + 1).padStart(2, "0")}
+        <ol className="grid gap-5 md:grid-cols-2">
+          {roles.map((role, i) => {
+            const body = (
+              <div data-tilt className="tile tile-hover flex h-full flex-col p-7">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="bg-gradient-brand flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl font-display text-lg font-bold text-white">
+                    {role.company.charAt(0)}
                   </span>
-                  <div>
-                    {exp.period && (
-                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{exp.period}</p>
-                    )}
-                    <h3 className="font-serif mt-2 text-3xl leading-tight text-foreground transition-colors duration-300 group-hover:text-accent">{exp.role}</h3>
-                    {exp.certificateUrl ? (
-                      <button
-                        type="button"
-                        onClick={() => setPreviewUrl(exp.certificateUrl!)}
-                        className="ink-link mt-2 inline-flex items-center gap-1.5 text-base font-semibold text-accent"
-                      >
-                        <FileText size={15} />
-                        {exp.company}
-                        <span className="font-mono text-[10px] font-normal uppercase tracking-wider text-muted">
-                          · view letter
-                        </span>
-                      </button>
-                    ) : (
-                      <p className="mt-2 text-base font-semibold text-accent">{exp.company}</p>
-                    )}
-                  </div>
-                  <p className="leading-relaxed text-foreground/75 md:pt-6">{exp.description}</p>
-                </article>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-        <div className="border-t-[1.5px] border-foreground" />
-      </div>
-
-      {previewUrl && (
-        <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-          onClick={() => setPreviewUrl(null)}
-        >
-          <div
-            className="paper-card flex h-[85vh] w-full max-w-3xl flex-col overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <span className="font-serif text-xl text-foreground">Experience Letter</span>
-              <div className="flex items-center gap-2">
-                <a href={previewUrl} download className="btn-ink !px-3 !py-1.5 !text-xs">
-                  <Download size={14} />
-                  Download
-                </a>
-                <button
-                  type="button"
-                  aria-label="Close preview"
-                  onClick={() => setPreviewUrl(null)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-accent"
-                >
-                  <X size={18} />
-                </button>
+                  {isOngoing(role.period) && (
+                    <span className="pill !py-1 text-xs font-semibold text-green-600 dark:text-green-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                      Current
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-5 font-display text-xl font-semibold text-foreground">{role.role}</h3>
+                <p className="mt-1 font-medium text-accent">{role.company}</p>
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-muted">
+                  <CalendarDays size={14} />
+                  {role.period}
+                </p>
+                <p className="mt-5 flex-1 leading-relaxed text-muted">{role.description}</p>
+                {role.certificateUrl && (
+                  <p className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                    View experience letter
+                    <ArrowUpRight size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </p>
+                )}
               </div>
-            </div>
-            <iframe src={previewUrl} title="Experience Letter Preview" className="h-full w-full flex-1 bg-white" />
-          </div>
-        </div>
-      )}
+            );
+            return (
+              <li key={role.company}>
+                <Reveal delay={i * 80} className="h-full">
+                  {role.certificateUrl ? (
+                    <a href={role.certificateUrl} target="_blank" rel="noopener noreferrer" className="group block h-full">
+                      {body}
+                    </a>
+                  ) : (
+                    body
+                  )}
+                </Reveal>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </section>
   );
 }
