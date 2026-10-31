@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 // Absolute hrefs ("/#about") so the same bar works on sub-pages; on the home
@@ -22,7 +21,6 @@ export default function Nav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [inView, setInView] = useState("");
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!isHome) return;
@@ -54,7 +52,7 @@ export default function Nav() {
           <span className="bg-gradient-brand flex h-9 w-9 items-center justify-center rounded-full font-display text-sm font-bold text-white">
             MI
           </span>
-          <span className="hidden font-display text-[15px] font-semibold text-foreground sm:block">Mahnoor Iftikhar</span>
+          <span className="font-display text-[15px] font-semibold text-foreground">Mahnoor Iftikhar</span>
         </Link>
 
         <ul className="hidden items-center gap-0.5 md:flex">
@@ -75,31 +73,22 @@ export default function Nav() {
           >
             Let&apos;s talk
           </Link>
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label="Toggle menu"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-surface-2 md:hidden"
-          >
-            {open ? <X size={18} /> : <Menu size={18} />}
-          </button>
         </div>
       </nav>
 
-      {open && (
-        <div className="tile mx-auto mt-2 max-w-5xl p-2 md:hidden">
-          <ul className="grid grid-cols-2 gap-1">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} onClick={() => setOpen(false)} className={`block ${linkClass(link.id)}`}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Phones: the same links, always visible, in a swipeable row under the bar. */}
+      <ul
+        aria-label="Sections"
+        className="mx-auto mt-2 flex max-w-5xl items-center gap-1 overflow-x-auto rounded-full border border-border bg-surface/80 p-1.5 shadow-[var(--shadow)] backdrop-blur-xl [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden"
+      >
+        {links.map((link) => (
+          <li key={link.href} className="flex-shrink-0">
+            <Link href={link.href} className={linkClass(link.id)} aria-current={active === link.id ? "page" : undefined}>
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </header>
   );
 }

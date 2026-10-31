@@ -35,15 +35,15 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="scroll-mt-28">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28">
         <Reveal>
-          <div className="bg-gradient-brand relative overflow-hidden rounded-[2rem] p-3 shadow-[0_30px_80px_-30px_var(--accent)]">
+          <div className="bg-gradient-brand relative overflow-hidden rounded-[2rem] p-2 sm:p-3shadow-[0_30px_80px_-30px_var(--accent)]">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/15 blur-3xl"
             />
             <div className="relative grid gap-3 lg:grid-cols-[1fr_1.15fr]">
-              <div className="flex flex-col p-6 text-white md:p-9">
+              <div className="flex min-w-0 flex-col p-4 text-white sm:p-6 md:p-9">
                 <p className="inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
                   Contact
                 </p>
@@ -65,8 +65,10 @@ export default function Footer() {
                         <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/15">
                           {c.icon}
                         </span>
-                        <span className="w-20 flex-shrink-0 text-sm text-white/70">{c.label}</span>
-                        <span className="truncate text-sm font-semibold">{c.value}</span>
+                        <span className="flex min-w-0 flex-col sm:flex-row sm:items-center sm:gap-3">
+                          <span className="text-xs text-white/70 sm:w-20 sm:flex-shrink-0 sm:text-sm">{c.label}</span>
+                          <span className="break-all text-sm font-semibold sm:truncate sm:break-normal">{c.value}</span>
+                        </span>
                         <ArrowUpRight size={15} className="ml-auto flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
                       </a>
                     </li>
@@ -75,12 +77,14 @@ export default function Footer() {
                     <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/15">
                       <MapPin size={17} />
                     </span>
-                    <span className="w-20 flex-shrink-0 text-sm text-white/70">Based in</span>
-                    <span className="text-sm font-semibold">{profile.location} · remote-friendly</span>
+                    <span className="flex min-w-0 flex-col sm:flex-row sm:items-center sm:gap-3">
+                      <span className="text-xs text-white/70 sm:w-20 sm:flex-shrink-0 sm:text-sm">Based in</span>
+                      <span className="text-sm font-semibold">{profile.location} · remote-friendly</span>
+                    </span>
                   </li>
                 </ul>
               </div>
-              <div className="rounded-[1.5rem] bg-surface p-6 md:p-8">
+              <div className="min-w-0 rounded-[1.5rem] bg-surface p-4 sm:p-6 md:p-8">
                 <ContactForm />
               </div>
             </div>
